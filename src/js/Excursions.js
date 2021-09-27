@@ -13,7 +13,7 @@ class Excursions {
     }
 
     renderExcursions(data) {
-        const ulEl = this._findElByClass(document, '.excursions');
+        const ulEl = this._findByClass(document, '.excursions');
         this._clearExcursionsList();
         data.forEach(el => {
             const excursionItem = this._createLi(el);
@@ -24,10 +24,10 @@ class Excursions {
     _createLi(itemData) {
         const liEl = this._getExcursionItemProto();
         liEl.dataset.id = itemData.id;
-        const excursionTitle = this._findElByClass(liEl, '.excursions__title');
-        const excursionDesc = this._findElByClass(liEl, '.excursions__description');
-        const excursionPriceAdult = this._findElByClass(liEl, '.excursions__price--adult');
-        const excursionPriceChild = this._findElByClass(liEl, '.excursions__price--child');
+        const excursionTitle = this._findByClass(liEl, '.excursions__title');
+        const excursionDesc = this._findByClass(liEl, '.excursions__description');
+        const excursionPriceAdult = this._findByClass(liEl, '.excursions__price--adult');
+        const excursionPriceChild = this._findByClass(liEl, '.excursions__price--child');
         excursionTitle.innerText = itemData.title;
         excursionDesc.innerText = itemData.description;
         excursionPriceAdult.innerText = itemData.priceAdult;
@@ -35,13 +35,36 @@ class Excursions {
         return liEl;
     }
 
-    _findElByClass(element, className) {
+    _findByClass(element, className) {
         return element.querySelector(className);
     }
 
     _clearExcursionsList() {
         const excursionsList = document.querySelectorAll('.excursions__item:not(.excursions__item--prototype)');
         excursionsList.forEach(item => item.parentElement.removeChild(item));
+    }
+
+    //ADMIN usuwanie wycieczki
+
+    removeExcursion() {
+        const ulEl = this._findByClass(document, '.excursions');
+        ulEl.addEventListener('click', e => {
+            e.preventDefault();
+            if(this._isElementClass(e.target, 'excursions__field-input--remove')) {
+                const id = this._getIdFromLi(e.target);
+                this.apiService.removeData(id)
+                    .catch(err => console.error(err))
+                    .finally(() => this.loadExcursions())
+            };
+        });
+    }
+
+    _isElementClass(element, className) {
+        return element.classList.contains(className);
+    }
+
+    _getIdFromLi(targetEl) {
+        return targetEl.parentElement.parentElement.parentElement.dataset.id;
     }
 
     //ADMIN dodawanie wycieczki

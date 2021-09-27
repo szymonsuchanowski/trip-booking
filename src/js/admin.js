@@ -10,6 +10,7 @@ function init() {
     const excursions = new Excursions(api);
     excursions.addExcursion();
     excursions.loadExcursions();
+    excursions.removeExcursion();
 }
 
 console.log('admin');
