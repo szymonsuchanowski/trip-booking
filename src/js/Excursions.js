@@ -3,6 +3,47 @@ class Excursions {
         this.apiService = api;
     }
 
+    //ADMIN ładowanie wycieczek
+    loadExcursions() {
+        this.apiService.loadData()
+            .then(data => {
+                this.renderExcursions(data);
+            })
+            .catch(err => console.error(err))
+    }
+
+    renderExcursions(data) {
+        const ulEl = this._findElByClass(document, '.excursions');
+        this._clearExcursionsList();
+        data.forEach(el => {
+            const excursionItem = this._createLi(el);
+            ulEl.appendChild(excursionItem);
+        })
+    }
+
+    _createLi(itemData) {
+        const liEl = this._getExcursionItemProto();
+        liEl.dataset.id = itemData.id;
+        const excursionTitle = this._findElByClass(liEl, '.excursions__title');
+        const excursionDesc = this._findElByClass(liEl, '.excursions__description');
+        const excursionPriceAdult = this._findElByClass(liEl, '.excursions__price--adult');
+        const excursionPriceChild = this._findElByClass(liEl, '.excursions__price--child');
+        excursionTitle.innerText = itemData.title;
+        excursionDesc.innerText = itemData.description;
+        excursionPriceAdult.innerText = itemData.priceAdult;
+        excursionPriceChild.innerText = itemData.priceChild;
+        return liEl;
+    }
+
+    _findElByClass(element, className) {
+        return element.querySelector(className);
+    }
+
+    _clearExcursionsList() {
+        const excursionsList = document.querySelectorAll('.excursions__item:not(.excursions__item--prototype)');
+        excursionsList.forEach(item => item.parentElement.removeChild(item));
+    }
+
     //ADMIN dodawanie wycieczki
     addExcursion() {
         const form = document.querySelector('.form');
@@ -14,25 +55,31 @@ class Excursions {
                 this.apiService.addData('excursions', data)
                     .then(() => form.reset())
                     .catch(err => console.error(err))
-                    .finally(() => console.log('git'))
+                    .finally(() => this.loadExcursions())
             } else {
                 this._showErrorMsg(e.target);
             }
         });
     }
 
+    _getExcursionItemProto() {
+        const excursionItemProto = document.querySelector('.excursions__item--prototype').cloneNode(true);
+        excursionItemProto.classList.remove('excursions__item--prototype');
+        return excursionItemProto;
+    }
+
     _getExcursionData(formElements) {
         const { name, description, adult, child } = formElements;
         return {
-            name: name.value.trim(),
+            title: name.value.trim(),
             description: description.value.trim(),
             priceAdult: +adult.value,
             priceChild: +child.value
         }
     }
 
-    _isExcursionDataValid({ name, description, priceAdult, priceChild }) {
-        return (this._isStringValid(name, description) && this._isPriceValid(priceAdult, priceChild));
+    _isExcursionDataValid({ title, description, priceAdult, priceChild }) {
+        return (this._isStringValid(title, description) && this._isPriceValid(priceAdult, priceChild));
     }
 
     _isStringValid(string1, string2) {

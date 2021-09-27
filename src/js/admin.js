@@ -9,6 +9,7 @@ function init() {
     const api = new ExcursionsAPI();
     const excursions = new Excursions(api);
     excursions.addExcursion();
+    excursions.loadExcursions();
 }
 
 console.log('admin');
