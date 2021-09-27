@@ -1,6 +1,6 @@
 class ExcursionsAPI {
     constructor() {
-        this.url = 'http://locahost:3000/';
+        this.url = 'http://localhost:3000/';
     }
 
     loadData() {
