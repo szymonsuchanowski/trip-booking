@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
     const api = new ExcursionsAPI();
     const excursions = new Excursions(api);
-    excursions.addExcursion();
-    excursions.loadExcursions();
-    excursions.removeExcursion();
+    excursions.add();
+    excursions.load();
+    excursions.remove();
+    excursions.update();
 }
 
 console.log('admin');
