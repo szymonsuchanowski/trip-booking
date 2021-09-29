@@ -205,6 +205,32 @@ class Excursions {
         })
     }
 
+    //Client usuwanie pozycji
+    removeFromBasket() {
+        const ulEl = this._findByClass(document, 'summary');
+        ulEl.addEventListener('click', e => {
+            if (this._isElementClass(e.target, 'summary__btn-remove')) {
+                e.preventDefault();
+                const clickedItemId = this._getItemId(e.target);
+                this._removeItem(clickedItemId);
+                this._updateOrderSummary();
+                this._updateOrderTotalPrice();
+            }
+        })
+    }
+
+    _getItemId(targetEl) {
+        return +targetEl.parentElement.parentElement.dataset.id;
+    }
+
+    _removeItem(id) {
+        console.log(id);
+        const indexToRemove = this.basket.findIndex(item => item.id === id);
+        this.basket.splice(indexToRemove, 1);
+    }
+
+    //-------------
+
     _getBasketItemNums(targetEl) {
         const numAdult = targetEl.elements[0].value.trim();
         const numChild = targetEl.elements[1].value.trim();
@@ -282,9 +308,14 @@ class Excursions {
     }
 
     _setSummaryData(itemProto, item) {
+        this._setItemId(itemProto, item);
         this._setSummaryTitle(itemProto, item);
         this._setSummaryPrice(itemProto, item);
         this._setSummaryDescription(itemProto, item);
+    }
+
+    _setItemId(itemProto, item) {
+        itemProto.dataset.id = item.id;
     }
 
     _setSummaryTitle(itemProto, item) {

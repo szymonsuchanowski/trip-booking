@@ -10,6 +10,7 @@ function init() {
     const excursions = new Excursions(api);
     excursions.load();
     excursions.addToBasket();
+    excursions.removeFromBasket();
 }
 
 console.log('client');
