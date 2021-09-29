@@ -255,6 +255,7 @@ class Excursions {
         const ulEl = this._findByClass(document, 'summary');
         this._clearList(ulEl, 'summary__item--prototype');
         this._renderOrderSummary(ulEl);
+        this._updateOrderTotalPrice();
     }
 
     _findElementChildren(element) {
@@ -297,6 +298,16 @@ class Excursions {
         dzieci: ${item.numChild} x ${item.priceChild}PLN`;
         const descriptionEl = this._findByClass(itemProto, 'summary__prices');
         descriptionEl.innerText = textContent;
+    }
+
+    _updateOrderTotalPrice() {
+        const totalPriceEl = this._findByClass(document, 'order__total-price-value');
+        const orderTotalPrice = this._countTotalPrice();
+        totalPriceEl.innerText = `${orderTotalPrice}PLN`;
+    }
+
+    _countTotalPrice() {
+        return this.basket.reduce((prev, curr) => prev + curr.totalPrice, 0);
     }
 }
 
