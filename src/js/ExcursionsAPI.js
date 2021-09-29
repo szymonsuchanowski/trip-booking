@@ -3,8 +3,8 @@ class ExcursionsAPI {
         this.url = 'http://localhost:3000/';
     }
 
-    loadData() {
-        return this._fetch('excursions');
+    loadData(path) {
+        return this._fetch(path);
     }
 
     addData(path, data) {

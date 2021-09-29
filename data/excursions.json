@@ -1,4 +1,33 @@
 {
-    "excursions": [],
-    "orders": []
+  "excursions": [
+    {
+      "title": "test1",
+      "description": "testsss1",
+      "priceAdult": 111,
+      "priceChild": 111,
+      "id": 1
+    },
+    {
+      "title": "test",
+      "description": "wwwww",
+      "priceAdult": 123,
+      "priceChild": 11111,
+      "id": 2
+    },
+    {
+      "title": "testt5",
+      "description": "ssssss",
+      "priceAdult": 4,
+      "priceChild": 5,
+      "id": 4
+    },
+    {
+      "title": "test",
+      "description": "hhhh",
+      "priceAdult": 77,
+      "priceChild": 77,
+      "id": 5
+    }
+  ],
+  "orders": []
 }
