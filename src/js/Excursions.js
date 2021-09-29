@@ -268,7 +268,7 @@ class Excursions {
         const isValueValid = this._isMatchRegex(regex, inputValue);
         if (isValueValid) {
             inputEl.style.borderBottom = "2px solid green";
-            this._setGreenInputBorder();
+            this._setInputBorderColor('green');
         } else {
             errors.push(inputEl);
         }
@@ -298,22 +298,15 @@ class Excursions {
         return [...document.querySelectorAll('.order__field-border')];
     }
 
-    _setGreenInputBorder() {
+    _setInputBorderColor(color) {
         const inputsBorder = this._getOrderInputsBorder();
         inputsBorder.forEach(border => {
-            border.style.background = "green";
+            border.style.background = color;
         })
     }
 
     _setRedInputBorder(border) {
         border.style.background = "red";
-    }
-
-    _setBlackInputBorder() {
-        const inputsBorder = this._getOrderInputsBorder();
-        inputsBorder.forEach(border => {
-            border.style.background = "#000000";
-        })
     }
 
     _sendOrder(formEl, nameEl, emailEl) {
@@ -323,7 +316,7 @@ class Excursions {
         this._clearOrderData(formEl, nameEl, emailEl);
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
-        this._setBlackInputBorder();
+        this._setInputBorderColor('black');
         //this._showSuccesMsg();
     }
 
