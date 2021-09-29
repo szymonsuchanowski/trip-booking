@@ -238,13 +238,14 @@ class Excursions {
             if (this._isBasketEmpty()) {
                 alert('Aby złożyć zamówienie, najpierw dodaj do koszyka interesującą Cię wycieczkę (lub wycieczki).');
             } else {
+                this._removeErrorMsg(formEl);
                 const errors = [];
                 console.log(e.target.elements);
                 const nameEl = this._getOrderFormField(e.target, 'name');
                 this._validateOrderValue(errors, nameEl, 'name');
                 const emailEl = this._getOrderFormField(e.target, 'email');
                 this._validateOrderValue(errors, emailEl, 'email');
-                errors.length > 0 ? this._showErrorMsg(errors) : this._sendOrder(nameEl, emailEl);
+                errors.length > 0 ? this._createOrderError(errors, e.target) : this._sendOrder(nameEl, emailEl);
             }
         })
     }
@@ -267,7 +268,8 @@ class Excursions {
         const isValueValid = this._isMatchRegex(regex, inputValue);
         if (isValueValid) {
             inputEl.style.borderBottom = "2px solid green";
-            //setGreenInputBorder(getOrderInputsBorder());
+            const orderInputsBorder = this._getOrderInputsBorder()
+            this._setGreenInputBorder(orderInputsBorder);
         } else {
             errors.push(inputEl);
         }
@@ -285,10 +287,26 @@ class Excursions {
         return regex.test(testValue);
     }
 
-    _showErrorMsg(errors) {
+    _createOrderError(errors, targetEl) {
         errors.forEach(err => {
             err.style.borderBottom = "2px solid red";
+            this._setRedInputBorder(err.nextElementSibling);
         });
+        this._showErrorMsg(targetEl, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.')
+    }
+
+    _getOrderInputsBorder() {
+        return [...document.querySelectorAll('.order__field-border')];
+    }
+
+    _setGreenInputBorder(inputsBorder) {
+        inputsBorder.forEach(border => {
+            border.style.background = "green";
+        })
+    }
+
+    _setRedInputBorder(border) {
+        border.style.background = "red";
     }
 
     //-------------
