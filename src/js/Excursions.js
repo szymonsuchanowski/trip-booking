@@ -137,7 +137,7 @@ class Excursions {
                     .catch(err => console.error(err))
                     .finally(() => this.load())
             } else {
-                this._showErrorMsg(e.target);
+                this._showErrorMsg(e.target, 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powższe pola.');
             }
         });
     }
@@ -171,16 +171,16 @@ class Excursions {
         return (priceRegex.test(price1) && priceRegex.test(price2) && (price1 > 0 || price2 > 0));
     }
 
-    _removeErrorMsg(parentEl) {
-        if (parentEl.lastElementChild.tagName === 'P') {
-            parentEl.removeChild(parentEl.lastElementChild);
+    _removeErrorMsg(targetEl) {
+        if (targetEl.lastElementChild.tagName === 'P') {
+            targetEl.removeChild(targetEl.lastElementChild);
         }
     }
 
-    _showErrorMsg(formEl) {
+    _showErrorMsg(targetEl, textContent) {
         const newPara = document.createElement('p');
-        newPara.innerText = 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powższe pola.';
-        formEl.appendChild(newPara);
+        newPara.innerText = textContent;
+        targetEl.appendChild(newPara);
     }
 
     //CLIENT obsługa
@@ -192,14 +192,16 @@ class Excursions {
         const ulEl = this._findByClass(document, 'excursions');
         ulEl.addEventListener('submit', e => {
             e.preventDefault();
+            this._removeErrorMsg(e.target);
             const excursionId = e.target.parentElement.dataset.id;
             const basketItemNums = this._getBasketItemNums(e.target);
-            console.log(basketItemNums);
             if (this._isBasketNumValid(basketItemNums)) {
                 this.apiService.loadData(`excursions/${excursionId}`)
                     .then(data => this._insertBasketItem(data, basketItemNums))
                     .catch(err => console.error(err))
-            } else { console.log('eeeeeeee') }
+            } else {
+                this._showErrorMsg(e.target, 'Aby dodać wycieczkę liczba dzieci lub/i dorosłych musi zawierać się w przedziale 1-99.');
+            }
         })
     }
 
@@ -222,6 +224,7 @@ class Excursions {
         const basketItem = this._createBasketItem(data, basketItemNums);
         this._addItemToBasket(basketItem);
         this._updateOrderSummary();
+        this._updateOrderTotalPrice();
     }
 
     _createBasketItem({ id, title, priceAdult, priceChild }, { numAdult, numChild }) {
@@ -255,7 +258,6 @@ class Excursions {
         const ulEl = this._findByClass(document, 'summary');
         this._clearList(ulEl, 'summary__item--prototype');
         this._renderOrderSummary(ulEl);
-        this._updateOrderTotalPrice();
     }
 
     _findElementChildren(element) {
