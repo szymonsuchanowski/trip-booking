@@ -11,6 +11,7 @@ function init() {
     excursions.load();
     excursions.addToBasket();
     excursions.removeFromBasket();
+    excursions.handleFormSubmit();
 }
 
 console.log('client');

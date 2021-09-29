@@ -231,6 +231,68 @@ class Excursions {
 
     //-------------
 
+    handleFormSubmit() {
+        const formEl = this._findByClass(document, 'order');
+        formEl.addEventListener('submit', e => {
+            e.preventDefault();
+            if (this._isBasketEmpty()) {
+                alert('Aby złożyć zamówienie, najpierw dodaj do koszyka interesującą Cię wycieczkę (lub wycieczki).');
+            } else {
+                const errors = [];
+                console.log(e.target.elements);
+                const nameEl = this._getOrderFormField(e.target, 'name');
+                this._validateOrderValue(errors, nameEl, 'name');
+                const emailEl = this._getOrderFormField(e.target, 'email');
+                this._validateOrderValue(errors, emailEl, 'email');
+                errors.length > 0 ? this._showErrorMsg(errors) : this._sendOrder(nameEl, emailEl);
+            }
+        })
+    }
+
+    _isBasketEmpty() {
+        return this._countTotalPrice() === 0;
+    }
+
+    _getOrderFormField(formEl, inputName) {
+        if (inputName === 'name') {
+            return formEl.elements.name;
+        } else if (inputName === 'email') {
+            return formEl.elements.email;
+        }
+    }
+
+    _validateOrderValue(errors, inputEl, inputName) {
+        const inputValue = inputEl.value.trim();
+        const regex = this._chooseRegex(inputName);
+        const isValueValid = this._isMatchRegex(regex, inputValue);
+        if (isValueValid) {
+            inputEl.style.borderBottom = "2px solid green";
+            //setGreenInputBorder(getOrderInputsBorder());
+        } else {
+            errors.push(inputEl);
+        }
+    }
+
+    _chooseRegex(inputName) {
+        if (inputName === 'name') {
+            return /^[a-zA-Z]{3,}(?:(-| )[a-zA-Z]+){0,2}$/;
+        } else if (inputName === 'email') {
+            return /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        }
+    }
+
+    _isMatchRegex(regex, testValue) {
+        return regex.test(testValue);
+    }
+
+    _showErrorMsg(errors) {
+        errors.forEach(err => {
+            err.style.borderBottom = "2px solid red";
+        });
+    }
+
+    //-------------
+
     _getBasketItemNums(targetEl) {
         const numAdult = targetEl.elements[0].value.trim();
         const numChild = targetEl.elements[1].value.trim();
