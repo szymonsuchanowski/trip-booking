@@ -240,7 +240,6 @@ class Excursions {
             } else {
                 this._removeErrorMsg(formEl);
                 const errors = [];
-                console.log(e.target.elements);
                 const nameEl = this._getOrderFormField(e.target, 'name');
                 this._validateOrderValue(errors, nameEl, 'name');
                 const emailEl = this._getOrderFormField(e.target, 'email');
@@ -317,7 +316,7 @@ class Excursions {
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
         this._setInputBorderColor('black');
-        //this._showSuccesMsg();
+        this._showSuccessMsg(clientEmail, totalPrice);
     }
 
     _addOrder(nameEl, emailEl) {
@@ -335,6 +334,10 @@ class Excursions {
         nameEl.style.border = "";
         emailEl.style.border = "";
         this.basket = [];
+    }
+
+    _showSuccessMsg(email, price) {
+        alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
     }
 
     //-------------
