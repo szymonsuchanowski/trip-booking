@@ -245,7 +245,7 @@ class Excursions {
                 this._validateOrderValue(errors, nameEl, 'name');
                 const emailEl = this._getOrderFormField(e.target, 'email');
                 this._validateOrderValue(errors, emailEl, 'email');
-                errors.length > 0 ? this._createOrderError(errors, e.target) : this._sendOrder(nameEl, emailEl);
+                errors.length > 0 ? this._createOrderError(errors, e.target) : this._sendOrder(formEl, nameEl, emailEl);
             }
         })
     }
@@ -268,8 +268,7 @@ class Excursions {
         const isValueValid = this._isMatchRegex(regex, inputValue);
         if (isValueValid) {
             inputEl.style.borderBottom = "2px solid green";
-            const orderInputsBorder = this._getOrderInputsBorder()
-            this._setGreenInputBorder(orderInputsBorder);
+            this._setGreenInputBorder();
         } else {
             errors.push(inputEl);
         }
@@ -299,7 +298,8 @@ class Excursions {
         return [...document.querySelectorAll('.order__field-border')];
     }
 
-    _setGreenInputBorder(inputsBorder) {
+    _setGreenInputBorder() {
+        const inputsBorder = this._getOrderInputsBorder();
         inputsBorder.forEach(border => {
             border.style.background = "green";
         })
@@ -307,6 +307,41 @@ class Excursions {
 
     _setRedInputBorder(border) {
         border.style.background = "red";
+    }
+
+    _setBlackInputBorder() {
+        const inputsBorder = this._getOrderInputsBorder();
+        inputsBorder.forEach(border => {
+            border.style.background = "#000000";
+        })
+    }
+
+    _sendOrder(formEl, nameEl, emailEl) {
+        this._addOrder(nameEl, emailEl);
+        const totalPrice = this._countTotalPrice();
+        const clientEmail = emailEl.value.trim();
+        this._clearOrderData(formEl, nameEl, emailEl);
+        this._updateOrderSummary();
+        this._updateOrderTotalPrice();
+        this._setBlackInputBorder();
+        //this._showSuccesMsg();
+    }
+
+    _addOrder(nameEl, emailEl) {
+        const orderData = {
+            clientName: nameEl.value.trim(),
+            clientEmail: emailEl.value.trim(),
+            clientOrder: this.basket
+        }
+        this.apiService.addData('orders', orderData)
+            .catch(err => console.error(err))
+    }
+
+    _clearOrderData(formEl, nameEl, emailEl) {
+        formEl.reset();
+        nameEl.style.border = "";
+        emailEl.style.border = "";
+        this.basket = [];
     }
 
     //-------------
