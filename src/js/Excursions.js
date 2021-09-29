@@ -231,7 +231,7 @@ class Excursions {
 
     //-------------
 
-    handleFormSubmit() {
+    handleOrderSubmit() {
         const formEl = this._findByClass(document, 'order');
         formEl.addEventListener('submit', e => {
             e.preventDefault();
