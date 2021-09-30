@@ -1,6 +1,7 @@
 class Excursions {
-    constructor(api) {
+    constructor(api, excursionsValidator) {
         this.apiService = api;
+        this.validator = excursionsValidator;
         this.basket = [];
         this.ulEl = document.querySelector('.excursions');
     }
@@ -127,7 +128,7 @@ class Excursions {
             e.preventDefault();
             this._removeErrorMsg(e.target);
             const data = this._getNewItemData(e.target.elements);
-            if (this._isDataValid(data)) {
+            if (/*this._isDataValid(data)*/this.validator.isExcursionDataValid(data)) {
                 this.apiService.addData('excursions', data)
                     .then(() => form.reset())
                     .catch(err => console.error(err))
@@ -154,7 +155,7 @@ class Excursions {
         }
     }
 
-    _isDataValid({ title, description, priceAdult, priceChild }) {
+    /*_isDataValid({ title, description, priceAdult, priceChild }) {
         return (this._isStringValid(title, description) && this._isPriceValid(priceAdult, priceChild));
     }
 
@@ -165,7 +166,7 @@ class Excursions {
     _isPriceValid(price1, price2) {
         const priceRegex = /^\d{1,}(\.\d{1,2})?$/;
         return (priceRegex.test(price1) && priceRegex.test(price2) && (price1 > 0 || price2 > 0));
-    }
+    }*/
 
     _removeErrorMsg(targetEl) {
         if (targetEl.lastElementChild.tagName === 'P') {
@@ -257,9 +258,10 @@ class Excursions {
     }
 
     _validateOrderValue(errors, inputEl, inputName) {
-        const inputValue = inputEl.value.trim();
-        const regex = this._chooseRegex(inputName);
-        const isValueValid = this._isMatchRegex(regex, inputValue);
+        /*const inputValue = inputEl.value.trim();
+        const regex = this._chooseRegex(inputName);*/
+        const isValueValid = this.validator.isOrderDataValid(inputEl, inputName);
+        //this._isMatchRegex(regex, inputValue);
         if (isValueValid) {
             inputEl.style.borderBottom = "2px solid green";
             this._setInputBorderColor('green');
@@ -268,7 +270,7 @@ class Excursions {
         }
     }
 
-    _chooseRegex(inputName) {
+    /*_chooseRegex(inputName) {
         if (inputName === 'name') {
             return /^[a-zA-Z]{3,}(?:(-| )[a-zA-Z]+){0,2}$/;
         } else if (inputName === 'email') {
@@ -278,7 +280,7 @@ class Excursions {
 
     _isMatchRegex(regex, testValue) {
         return regex.test(testValue);
-    }
+    }*/
 
     _createOrderError(errors, targetEl) {
         errors.forEach(err => {
@@ -339,8 +341,8 @@ class Excursions {
     //-------------
 
     _getBasketItemNums(targetEl) {
-        const numAdult = targetEl.elements[0].value.trim();
-        const numChild = targetEl.elements[1].value.trim();
+        const numAdult = targetEl.elements.adults.value.trim();
+        const numChild = targetEl.elements.children.value.trim();
         return { numAdult, numChild };
     }
 
