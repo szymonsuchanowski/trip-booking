@@ -2,6 +2,7 @@ class Excursions {
     constructor(api) {
         this.apiService = api;
         this.basket = [];
+        this.ulEl = document.querySelector('.excursions');
     }
 
     //ADMIN ładowanie wycieczek
@@ -14,11 +15,11 @@ class Excursions {
     }
 
     render(data) {
-        const ulEl = this._findByClass(document, 'excursions');
-        this._clearList(ulEl, 'excursions__item--prototype');
+        //const ulEl = this._findByClass(document, 'excursions');
+        this._clearList(this.ulEl, 'excursions__item--prototype');
         data.forEach(itemData => {
             const excursionItem = this._createLi(itemData);
-            ulEl.appendChild(excursionItem);
+            this.ulEl.appendChild(excursionItem);
         })
     }
 
@@ -29,15 +30,11 @@ class Excursions {
         const excursionDesc = this._findByClass(liEl, 'excursions__description');
         const excursionPriceAdult = this._findByClass(liEl, 'excursions__price--adult');
         const excursionPriceChild = this._findByClass(liEl, 'excursions__price--child');
-        this._setTextContent(excursionTitle, title);
-        this._setTextContent(excursionDesc, description);
-        this._setTextContent(excursionPriceAdult, priceAdult);
-        this._setTextContent(excursionPriceChild, priceChild);
+        excursionTitle.innerText = title;
+        excursionDesc.innerText = description;
+        excursionPriceAdult.innerText = priceAdult;
+        excursionPriceChild.innerText = priceChild;
         return liEl;
-    }
-
-    _setTextContent(element, textContent) {
-        element.innerText = textContent;
     }
 
     _findByClass(element, className) {
@@ -47,8 +44,8 @@ class Excursions {
     //ADMIN usuwanie wycieczki
 
     remove() {
-        const ulEl = this._findByClass(document, 'excursions');
-        ulEl.addEventListener('click', e => {
+        //const ulEl = this._findByClass(document, 'excursions');
+        this.ulEl.addEventListener('click', e => {
             e.preventDefault();
             if (this._isElementClass(e.target, 'excursions__field-input--remove')) {
                 const id = this._getIdFromLi(e.target);
@@ -70,10 +67,9 @@ class Excursions {
     //ADMIN edycja dodanej już wycieczki
 
     update() {
-        const ulEl = this._findByClass(document, 'excursions');
-        ulEl.addEventListener('click', e => {
+        //const ulEl = this._findByClass(document, 'excursions');
+        this.ulEl.addEventListener('click', e => {
             e.preventDefault();
-            const targetEl = e.target;
             if (this._isElementClass(e.target, 'excursions__field-input--update')) {
                 if (this._isItemEditable(e.target)) {
                     const id = this._getIdFromLi(e.target);
@@ -82,11 +78,11 @@ class Excursions {
                     this.apiService.updateData(id, data)
                         .catch(err => console.error(err))
                         .finally(() => {
-                            targetEl.value = 'edytuj';
+                            e.target.value = 'edytuj';
                             this._setItemEditable(e.target, false);
                         });
                 } else {
-                    targetEl.value = 'zapisz';
+                    e.target.value = 'zapisz';
                     this._setItemEditable(e.target, true);
                 };
             };
@@ -189,8 +185,8 @@ class Excursions {
 
     //Client dodawanie do koszyka
     addToBasket() {
-        const ulEl = this._findByClass(document, 'excursions');
-        ulEl.addEventListener('submit', e => {
+        //const ulEl = this._findByClass(document, 'excursions');
+        this.ulEl.addEventListener('submit', e => {
             e.preventDefault();
             this._removeErrorMsg(e.target);
             const excursionId = e.target.parentElement.dataset.id;
@@ -224,7 +220,6 @@ class Excursions {
     }
 
     _removeItem(id) {
-        console.log(id);
         const indexToRemove = this.basket.findIndex(item => item.id === id);
         this.basket.splice(indexToRemove, 1);
     }

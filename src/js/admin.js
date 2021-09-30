@@ -13,5 +13,3 @@ function init() {
     excursions.remove();
     excursions.update();
 }
-
-console.log('admin');

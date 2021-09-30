@@ -13,5 +13,3 @@ function init() {
     excursions.removeFromBasket();
     excursions.handleOrderSubmit();
 }
-
-console.log('client');
