@@ -32,53 +32,47 @@
   "orders": [
     {
       "clientName": "test",
-      "clientEmail": "suchyy3006@gmail.com",
+      "clientEmail": "test@test.com",
+      "totalPrice": 250,
       "clientOrder": [
         {
           "id": 1,
           "title": "test1",
-          "priceAdult": 111,
-          "priceChild": 111,
+          "priceAdult": 80,
+          "priceChild": 60,
           "numAdult": 1,
           "numChild": 0,
-          "totalPrice": 111
+          "price": 80
         },
         {
           "id": 2,
-          "title": "test",
-          "priceAdult": 123,
-          "priceChild": 11111,
+          "title": "test2",
+          "priceAdult": 40,
+          "priceChild": 55,
           "numAdult": 1,
           "numChild": 0,
-          "totalPrice": 123
-        }
-      ],
-      "id": 1
-    },
-    {
-      "clientName": "aaaa",
-      "clientEmail": "suchyy3006@gmail.com",
-      "clientOrder": [
+          "price": 40
+        },
         {
-          "id": 2,
-          "title": "test",
-          "priceAdult": 123,
-          "priceChild": 11111,
-          "numAdult": 2,
+          "id": 3,
+          "title": "test3",
+          "priceAdult": 70,
+          "priceChild": 50,
+          "numAdult": 1,
           "numChild": 0,
-          "totalPrice": 246
+          "price": 70
         },
         {
           "id": 4,
-          "title": "testt5",
-          "priceAdult": 4,
-          "priceChild": 5,
-          "numAdult": 10,
+          "title": "test4",
+          "priceAdult": 10,
+          "priceChild": 20,
+          "numAdult": 6,
           "numChild": 0,
-          "totalPrice": 40
+          "price": 60
         }
       ],
-      "id": 2
+      "id": 1
     }
   ]
 }

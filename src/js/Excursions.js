@@ -318,6 +318,7 @@ class Excursions {
         const orderData = {
             clientName: nameEl.value.trim(),
             clientEmail: emailEl.value.trim(),
+            totalPrice: this._countTotalPrice(),
             clientOrder: this.basket
         }
         this.apiService.addData('orders', orderData)
@@ -367,7 +368,7 @@ class Excursions {
             priceChild,
             numAdult: +numAdult,
             numChild: +numChild,
-            totalPrice: priceAdult * +numAdult + priceChild * +numChild
+            price: priceAdult * +numAdult + priceChild * +numChild
         }
     }
 
@@ -383,7 +384,7 @@ class Excursions {
     _updateBasketItem(itemWithSameId, item) {
         itemWithSameId.numAdult += item.numAdult;
         itemWithSameId.numChild += item.numChild;
-        itemWithSameId.totalPrice += item.totalPrice;
+        itemWithSameId.price += item.price;
     }
 
     _updateOrderSummary() {
@@ -429,7 +430,7 @@ class Excursions {
     }
 
     _setSummaryPrice(itemProto, item) {
-        this._findByClass(itemProto, 'summary__total-price').innerText = `${item.totalPrice}PLN`;
+        this._findByClass(itemProto, 'summary__total-price').innerText = `${item.price}PLN`;
     }
 
     _setSummaryDescription(itemProto, item) {
@@ -446,7 +447,7 @@ class Excursions {
     }
 
     _countTotalPrice() {
-        return this.basket.reduce((prev, curr) => prev + curr.totalPrice, 0);
+        return this.basket.reduce((prev, curr) => prev + curr.price, 0);
     }
 }
 
