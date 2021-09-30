@@ -1,7 +1,7 @@
 class Excursions {
-    constructor(api, excursionsValidator) {
+    constructor(api, dataValidator) {
         this.apiService = api;
-        this.validator = excursionsValidator;
+        this.validator = dataValidator;
         this.basket = [];
         this.ulEl = document.querySelector('.excursions');
     }
@@ -192,7 +192,7 @@ class Excursions {
             this._removeErrorMsg(e.target);
             const excursionId = e.target.parentElement.dataset.id;
             const basketItemNums = this._getBasketItemNums(e.target);
-            if (this._isBasketNumValid(basketItemNums)) {
+            if (this.validator.isOrderNumValid(basketItemNums)/*this._isBasketNumValid(basketItemNums)*/) {
                 this.apiService.loadData(`excursions/${excursionId}`)
                     .then(data => this._insertBasketItem(data, basketItemNums))
                     .catch(err => console.error(err))
@@ -346,14 +346,14 @@ class Excursions {
         return { numAdult, numChild };
     }
 
-    _isBasketNumValid({ numAdult, numChild }) {
+    /*_isBasketNumValid({ numAdult, numChild }) {
         return (this._isPeopleNumValid(numAdult) && this._isPeopleNumValid(numChild) && (numAdult > 0 || numChild > 0));
     }
 
     _isPeopleNumValid(num) {
         const numRegex = /^(0|([1-9]{0,1}[0-9]{0,1}))$/;
         return numRegex.test(num);
-    }
+    }*/
 
     _insertBasketItem(data, basketItemNums) {
         const basketItem = this._createBasketItem(data, basketItemNums);
@@ -402,7 +402,7 @@ class Excursions {
     _clearList(parentEl, className) {
         const list = [...this._findElementChildren(parentEl)];
         list.forEach(item => {
-            if (!item.classList.contains(className)) {
+            if (!this._isElementClass(item, className)) {
                 parentEl.removeChild(item);
             }
         })

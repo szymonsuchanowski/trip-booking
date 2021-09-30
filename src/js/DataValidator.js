@@ -1,8 +1,4 @@
-class ExcursionsValidator {
-    /*constructor() {
-
-    }*/
-
+class DataValidator {
     isExcursionDataValid(excursionData) {
         const {
             title,
@@ -17,6 +13,11 @@ class ExcursionsValidator {
         const inputValue = inputEl.value.trim();
         const regex = this._chooseRegex(inputName);
         return this._isMatchRegex(regex, inputValue);
+    }
+
+    isOrderNumValid(orderNum) {
+        const { numAdult, numChild } = orderNum;
+        return (this._isNumValid(numAdult) && this._isNumValid(numChild) && (numAdult > 0 || numChild > 0));
     }
 
     _isStringAdded(string1, string2) {
@@ -36,9 +37,14 @@ class ExcursionsValidator {
         }
     }
 
+    _isNumValid(num) {
+        const numRegex = /^(0|([1-9]{0,1}[0-9]{0,1}))$/;
+        return numRegex.test(num);
+    }
+
     _isMatchRegex(regex, testValue) {
         return regex.test(testValue);
     }
 }
 
-export default ExcursionsValidator;
+export default DataValidator;
