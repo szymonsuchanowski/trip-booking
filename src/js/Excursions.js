@@ -1,7 +1,8 @@
 class Excursions {
-    constructor(api, dataValidator) {
+    constructor(api, dataValidator, elCreator) {
         this.apiService = api;
         this.validator = dataValidator;
+        this.elCreator = elCreator;
         this.basket = [];
         this.ulEl = document.querySelector('.excursions');
     }
@@ -19,12 +20,12 @@ class Excursions {
         //const ulEl = this._findByClass(document, 'excursions');
         this._clearList(this.ulEl, 'excursions__item--prototype');
         data.forEach(itemData => {
-            const excursionItem = this._createLi(itemData);
+            const excursionItem = this.elCreator.createExcursionEl(itemData);//this._createLi(itemData);
             this.ulEl.appendChild(excursionItem);
         })
     }
 
-    _createLi({ id, title, description, priceAdult, priceChild }) {
+    /*_createLi({ id, title, description, priceAdult, priceChild }) {
         const liEl = this._getItemProto('excursions__item--prototype');
         liEl.dataset.id = id;
         const excursionTitle = this._findByClass(liEl, 'excursions__title');
@@ -36,7 +37,7 @@ class Excursions {
         excursionPriceAdult.innerText = priceAdult;
         excursionPriceChild.innerText = priceChild;
         return liEl;
-    }
+    }*/
 
     _findByClass(element, className) {
         return element.querySelector(`.${className}`);
@@ -139,11 +140,11 @@ class Excursions {
         });
     }
 
-    _getItemProto(className) {
+    /*_getItemProto(className) {
         const itemProto = this._findByClass(document, className).cloneNode(true);
         itemProto.classList.remove(className);
         return itemProto;
-    }
+    }*/
 
     _getNewItemData(formElements) {
         const { name, description, adult, child } = formElements;
@@ -204,7 +205,7 @@ class Excursions {
 
     //Client usuwanie pozycji
     removeFromBasket() {
-        const ulEl = this._findByClass(document, 'summary');
+        const ulEl = document.querySelector('.summary');
         ulEl.addEventListener('click', e => {
             if (this._isElementClass(e.target, 'summary__btn-remove')) {
                 e.preventDefault();
@@ -228,7 +229,7 @@ class Excursions {
     //-------------
 
     handleOrderSubmit() {
-        const formEl = this._findByClass(document, 'order');
+        const formEl = document.querySelector('.order');
         formEl.addEventListener('submit', e => {
             e.preventDefault();
             if (this._isBasketEmpty()) {
@@ -390,7 +391,7 @@ class Excursions {
     }
 
     _updateOrderSummary() {
-        const ulEl = this._findByClass(document, 'summary');
+        const ulEl = document.querySelector('.summary');
         this._clearList(ulEl, 'summary__item--prototype');
         this._renderOrderSummary(ulEl);
     }
@@ -410,13 +411,14 @@ class Excursions {
 
     _renderOrderSummary(parentEl) {
         this.basket.forEach(item => {
-            const summaryItemProto = this._getItemProto('summary__item--prototype');
-            this._setSummaryData(summaryItemProto, item);
-            parentEl.appendChild(summaryItemProto);
+            const orderItem = this.elCreator.createOrderEl(item);
+            /*const summaryItemProto = this._getItemProto('summary__item--prototype');
+            this._setSummaryData(summaryItemProto, item);*/
+            parentEl.appendChild(orderItem/*summaryItemProto*/);
         })
     }
 
-    _setSummaryData(itemProto, item) {
+    /*_setSummaryData(itemProto, item) {
         this._setItemId(itemProto, item);
         this._setSummaryTitle(itemProto, item);
         this._setSummaryPrice(itemProto, item);
@@ -440,7 +442,7 @@ class Excursions {
         dzieci: ${item.numChild} x ${item.priceChild}PLN`;
         const descriptionEl = this._findByClass(itemProto, 'summary__prices');
         descriptionEl.innerText = textContent;
-    }
+    }*/
 
     _updateOrderTotalPrice() {
         const totalPriceEl = this._findByClass(document, 'order__total-price-value');
