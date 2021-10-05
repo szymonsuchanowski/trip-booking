@@ -1,6 +1,5 @@
-class InfoHandler{
+class InfoHandler {
     constructor() {
-
     }
 
     showErrorMsg(parentEl, textContent) {
@@ -36,16 +35,16 @@ class InfoHandler{
         })
     }
 
+    showSuccessMsg(email, price) {
+        alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
+    }
+
     _getOrderInputsBorder() {
         return [...document.querySelectorAll('.order__field-border')];
     }
 
     _setRedInputBorder(border) {
         border.style.background = "red";
-    }
-
-    showSuccessMsg(email, price) {
-        alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
     }
 }
 
