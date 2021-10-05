@@ -42,14 +42,26 @@ body::before {
 }
 
 .panel {
+    align-items: stretch;
     display: flex;
-    margin: 0 auto;
+    justify-content: center;
+    margin: 10px;
     max-width: 1200px;
-    padding: 30px 0;
+    width: 100%;
+    z-index: 2;
 }
 
-.panel__excursins {
-    width: 70%;
+.panel__excursions {
+    align-items: center;
+    background: var(--light-white-bg);
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: background-color var(--tran-info);
 }
 
 .excursions {
