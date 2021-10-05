@@ -16,6 +16,9 @@ class ElementCreator {
     _getElProto(className) {
         const itemProto = document.querySelector(`.${className}`).cloneNode(true);
         itemProto.classList.remove(className);
+        if (this._isElementClass(itemProto, 'excursions__item--prototype-client')) {
+            itemProto.classList.remove('excursions__item--prototype-client');
+        }
         return itemProto;
     }
 
@@ -49,6 +52,10 @@ class ElementCreator {
         dzieci: ${itemData.numChild} x ${itemData.priceChild}PLN`;
         const descriptionEl = element.querySelector('.summary__prices');
         descriptionEl.innerText = textContent;
+    }
+
+    _isElementClass(element, className) {
+        return element.classList.contains(className);
     }
 }
 

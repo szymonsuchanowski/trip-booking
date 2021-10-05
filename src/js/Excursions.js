@@ -118,6 +118,14 @@ class Excursions {
             const excursionItem = this.elCreator.createExcursionEl(itemData);
             this.excursionsPanel.appendChild(excursionItem);
         });
+        if (this._isElementClass(this.excursionsPanel.firstElementChild, 'excursions__item--prototype-client')) {
+            this._showFirstClientExcursion();
+        };
+    }
+
+    _showFirstClientExcursion() {
+        const visibleExcursion = document.querySelector('.excursions__item--prototype-client').nextElementSibling;
+        visibleExcursion.classList.toggle('excursions__item--visible');
     }
 
     _getNewItemData(formElements) {

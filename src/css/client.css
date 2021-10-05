@@ -64,7 +64,19 @@ body::before {
     transition: background-color var(--tran-info);
 }
 
-.excursions {
+.excursions__item {
+    display: none;
+    min-height: 65vh;
+    padding: 30px 60px;
+}
+
+.excursions__item--visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/*.excursions {
     display: flex;
     flex-wrap: wrap;
 }
@@ -75,7 +87,7 @@ body::before {
     margin: 10px;
     padding: 20px;
     width: calc(50% - 20px);
-}
+}*/
 
 .panel__form {
     background-color: #f4f4f4;
