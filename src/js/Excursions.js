@@ -1,10 +1,11 @@
 class Excursions {
-    constructor(api, dataValidator, elCreator) {
+    constructor(api, dataValidator, elCreator, infoHandler) {
         this.apiService = api;
         this.validator = dataValidator;
         this.elCreator = elCreator;
+        this.infoHandler = infoHandler;
         this.basket = [];
-        this.ulEl = document.querySelector('.excursions');
+        this.excursionsPanel = document.querySelector('.excursions');
     }
 
     //ADMIN ładowanie wycieczek
@@ -18,10 +19,10 @@ class Excursions {
 
     render(data) {
         //const ulEl = this._findByClass(document, 'excursions');
-        this._clearList(this.ulEl, 'excursions__item--prototype');
+        this._clearList(this.excursionsPanel, 'excursions__item--prototype');
         data.forEach(itemData => {
             const excursionItem = this.elCreator.createExcursionEl(itemData);//this._createLi(itemData);
-            this.ulEl.appendChild(excursionItem);
+            this.excursionsPanel.appendChild(excursionItem);
         })
     }
 
@@ -39,15 +40,15 @@ class Excursions {
         return liEl;
     }*/
 
-    _findByClass(element, className) {
+    /*_findByClass(element, className) {
         return element.querySelector(`.${className}`);
-    }
+    }*/
 
     //ADMIN usuwanie wycieczki
 
     remove() {
         //const ulEl = this._findByClass(document, 'excursions');
-        this.ulEl.addEventListener('click', e => {
+        this.excursionsPanel.addEventListener('click', e => {
             e.preventDefault();
             if (this._isElementClass(e.target, 'excursions__field-input--remove')) {
                 const id = this._getIdFromLi(e.target);
@@ -70,7 +71,7 @@ class Excursions {
 
     update() {
         //const ulEl = this._findByClass(document, 'excursions');
-        this.ulEl.addEventListener('click', e => {
+        this.excursionsPanel.addEventListener('click', e => {
             e.preventDefault();
             if (this._isElementClass(e.target, 'excursions__field-input--update')) {
                 if (this._isItemEditable(e.target)) {
@@ -127,7 +128,8 @@ class Excursions {
         const form = document.querySelector('.form');
         form.addEventListener('submit', e => {
             e.preventDefault();
-            this._removeErrorMsg(e.target);
+            this.infoHandler.removeErrorMsg(e.target);
+            //this._removeErrorMsg(e.target);
             const data = this._getNewItemData(e.target.elements);
             if (/*this._isDataValid(data)*/this.validator.isExcursionDataValid(data)) {
                 this.apiService.addData('excursions', data)
@@ -135,7 +137,8 @@ class Excursions {
                     .catch(err => console.error(err))
                     .finally(() => this.load())
             } else {
-                this._showErrorMsg(e.target, 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powższe pola.');
+                this.infoHandler.showErrorMsg(e.target, 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powższe pola.')
+                //this._showErrorMsg(e.target, 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powższe pola.');
             }
         });
     }
@@ -169,17 +172,17 @@ class Excursions {
         return (priceRegex.test(price1) && priceRegex.test(price2) && (price1 > 0 || price2 > 0));
     }*/
 
-    _removeErrorMsg(targetEl) {
+    /*_removeErrorMsg(targetEl) {
         if (targetEl.lastElementChild.tagName === 'P') {
             targetEl.removeChild(targetEl.lastElementChild);
         }
-    }
+    }*/
 
-    _showErrorMsg(targetEl, textContent) {
+    /*_showErrorMsg(targetEl, textContent) {
         const newPara = document.createElement('p');
         newPara.innerText = textContent;
         targetEl.appendChild(newPara);
-    }
+    }*/
 
     //CLIENT obsługa
     //załadowanie dostępnych do wyboru wycieczek
@@ -188,9 +191,10 @@ class Excursions {
     //Client dodawanie do koszyka
     addToBasket() {
         //const ulEl = this._findByClass(document, 'excursions');
-        this.ulEl.addEventListener('submit', e => {
+        this.excursionsPanel.addEventListener('submit', e => {
             e.preventDefault();
-            this._removeErrorMsg(e.target);
+            this.infoHandler.removeErrorMsg(e.target);
+            //this._removeErrorMsg(e.target);
             const excursionId = e.target.parentElement.dataset.id;
             const basketItemNums = this._getBasketItemNums(e.target);
             if (this.validator.isOrderNumValid(basketItemNums)/*this._isBasketNumValid(basketItemNums)*/) {
@@ -198,7 +202,8 @@ class Excursions {
                     .then(data => this._insertBasketItem(data, basketItemNums))
                     .catch(err => console.error(err))
             } else {
-                this._showErrorMsg(e.target, 'Aby dodać wycieczkę liczba dzieci lub/i dorosłych musi zawierać się w przedziale 1-99.');
+                this.infoHandler.showErrorMsg(e.target, 'Aby dodać wycieczkę liczba dzieci lub/i dorosłych musi zawierać się w przedziale 1-99.')
+                //this._showErrorMsg(e.target, 'Aby dodać wycieczkę liczba dzieci lub/i dorosłych musi zawierać się w przedziale 1-99.');
             }
         })
     }
@@ -232,16 +237,20 @@ class Excursions {
         const formEl = document.querySelector('.order');
         formEl.addEventListener('submit', e => {
             e.preventDefault();
+            this.infoHandler.removeErrorMsg(e.target);
+            //this._removeErrorMsg(e.target);
             if (this._isBasketEmpty()) {
-                alert('Aby złożyć zamówienie, najpierw dodaj do koszyka interesującą Cię wycieczkę (lub wycieczki).');
+                //wywolanie alertu metodą dodać
+                //alert('Aby złożyć zamówienie, najpierw dodaj do koszyka interesującą Cię wycieczkę (lub wycieczki).');
+                this.infoHandler.showErrorMsg(e.target, 'Aby złożyć zamówienie, najpierw dodaj do koszyka interesującą Cię wycieczkę (lub wycieczki).')
+                //this._showErrorMsg(e.target, 'Aby złożyć zamówienie, najpierw dodaj do koszyka interesującą Cię wycieczkę (lub wycieczki).')
             } else {
-                this._removeErrorMsg(formEl);
                 const errors = [];
                 const nameEl = this._getOrderFormField(e.target, 'name');
                 this._validateOrderValue(errors, nameEl, 'name');
                 const emailEl = this._getOrderFormField(e.target, 'email');
                 this._validateOrderValue(errors, emailEl, 'email');
-                errors.length > 0 ? this._createOrderError(errors, e.target) : this._sendOrder(formEl, nameEl, emailEl);
+                errors.length > 0 ? /*this._createOrderError(errors, e.target)*/this.infoHandler.createOrderError(errors, e.target) : this._sendOrder(formEl, nameEl, emailEl);
             }
         })
     }
@@ -263,9 +272,10 @@ class Excursions {
         const regex = this._chooseRegex(inputName);*/
         const isValueValid = this.validator.isOrderDataValid(inputEl, inputName);
         //this._isMatchRegex(regex, inputValue);
-        if (isValueValid) {
-            inputEl.style.borderBottom = "2px solid green";
-            this._setInputBorderColor('green');
+        if (isValueValid) { //createordersuccess!! i do klasy przerzucic
+            this.infoHandler.createOrderSuccess(inputEl);
+            /*inputEl.style.borderBottom = "2px solid green";
+            this._setInputBorderColor('green');*/
         } else {
             errors.push(inputEl);
         }
@@ -283,28 +293,29 @@ class Excursions {
         return regex.test(testValue);
     }*/
 
-    _createOrderError(errors, targetEl) {
+    /*_createOrderError(errors, targetEl) {
         errors.forEach(err => {
             err.style.borderBottom = "2px solid red";
             this._setRedInputBorder(err.nextElementSibling);
         });
-        this._showErrorMsg(targetEl, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.')
-    }
+        this.infoHandler.showErrorMsg(e.target, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.')
+        //this._showErrorMsg(targetEl, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.')
+    }*/
 
-    _getOrderInputsBorder() {
+    /*_getOrderInputsBorder() {
         return [...document.querySelectorAll('.order__field-border')];
-    }
+    }*/
 
-    _setInputBorderColor(color) {
+    /*_setInputBorderColor(color) {
         const inputsBorder = this._getOrderInputsBorder();
         inputsBorder.forEach(border => {
             border.style.background = color;
         })
-    }
+    }*/
 
-    _setRedInputBorder(border) {
+    /*_setRedInputBorder(border) {
         border.style.background = "red";
-    }
+    }*/
 
     _sendOrder(formEl, nameEl, emailEl) {
         this._addOrder(nameEl, emailEl);
@@ -313,8 +324,10 @@ class Excursions {
         this._clearOrderData(formEl, nameEl, emailEl);
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
-        this._setInputBorderColor('black');
-        this._showSuccessMsg(clientEmail, totalPrice);
+        this.infoHandler.setEachInputBorderColor('black');
+        //this._setInputBorderColor('black');
+        this.infoHandler.showSuccessMsg(clientEmail, totalPrice);
+        //this._showSuccessMsg(clientEmail, totalPrice);
     }
 
     _addOrder(nameEl, emailEl) {
@@ -335,9 +348,9 @@ class Excursions {
         this.basket = [];
     }
 
-    _showSuccessMsg(email, price) {
+    /*_showSuccessMsg(email, price) {
         alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
-    }
+    }*/
 
     //-------------
 
@@ -357,13 +370,13 @@ class Excursions {
     }*/
 
     _insertBasketItem(data, basketItemNums) {
-        const basketItem = this._createBasketItem(data, basketItemNums);
+        const basketItem = this._setBasketItemData(data, basketItemNums);
         this._addItemToBasket(basketItem);
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
     }
 
-    _createBasketItem({ id, title, priceAdult, priceChild }, { numAdult, numChild }) {
+    _setBasketItemData({ id, title, priceAdult, priceChild }, { numAdult, numChild }) {
         return {
             id,
             title,
@@ -445,7 +458,7 @@ class Excursions {
     }*/
 
     _updateOrderTotalPrice() {
-        const totalPriceEl = this._findByClass(document, 'order__total-price-value');
+        const totalPriceEl = document.querySelector('.order__total-price-value');
         const orderTotalPrice = this._countTotalPrice();
         totalPriceEl.innerText = `${orderTotalPrice}PLN`;
     }
