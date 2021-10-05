@@ -1,10 +1,7 @@
 class InfoHandler {
-    constructor() {
-    }
-
-    showErrorMsg(parentEl, textContent) {
+    showErrorMsg(parentEl, textContent, className = 'error__msg') {
         const newP = document.createElement('p');
-        //DODAC KLASE DO OSTYLOWANIA!!! TAKA SAMA DLA WSZYSTKICH
+        newP.classList.add(className);
         newP.innerText = textContent;
         parentEl.appendChild(newP);
     }
@@ -15,12 +12,28 @@ class InfoHandler {
         }
     }
 
+    createNoExcursionInfo(parentEl) {
+        this.showErrorMsg(parentEl, 'Przepraszamy, niestety baza wycieczek jest pusta. Odśwież stronę, a jeżeli nadal brak dostępnych wycieczek, to zajrzyj do nas w późniejszym terminie - cały czas aktualizujemy ofertę.', 'excursions__error');
+        this._changeLayout(parentEl);
+    }
+
     createOrderError(errors, targetEl) {
         errors.forEach(err => {
             err.style.borderBottom = "2px solid red";
             this._setRedInputBorder(err.nextElementSibling);
         });
-        this.showErrorMsg(targetEl, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.')
+        this.showErrorMsg(targetEl, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.');
+    }
+
+    hideOrderErrors(formEl, nameEl, emailEl) {
+        this.removeErrorMsg(formEl);
+        this.setInitialBorderColor(nameEl, emailEl);
+        this.setEachInputBorderColor('black');
+    }
+
+    setInitialBorderColor(nameEl, emailEl) {
+        nameEl.style.border = '';
+        emailEl.style.border = '';
     }
 
     createOrderSuccess(inputEl) {
@@ -37,6 +50,11 @@ class InfoHandler {
 
     showSuccessMsg(email, price) {
         alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
+    }
+
+    _changeLayout(parentEl) {
+        parentEl.classList.add('panel__excursions--1col');
+        parentEl.nextElementSibling.classList.add('panel__form--invisible');
     }
 
     _getOrderInputsBorder() {

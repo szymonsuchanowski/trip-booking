@@ -7,6 +7,7 @@ class Excursions {
         this.basket = [];
         this.excursionsPanel = document.querySelector('.excursions');
         this.summaryPanel = document.querySelector('.summary');
+        this.orderPanel = document.querySelector('.order');
     }
 
     add() {
@@ -90,13 +91,15 @@ class Excursions {
                 this._removeItem(clickedItemId);
                 this._updateOrderSummary();
                 this._updateOrderTotalPrice();
+                if (this._isBasketEmpty()) {
+                    this.infoHandler.hideOrderErrors(this.orderPanel, this._getOrderFormField(this.orderPanel, 'name'), this._getOrderFormField(this.orderPanel, 'email'));
+                }
             };
         });
     }
 
     handleOrderSubmit() {
-        const formEl = document.querySelector('.order');
-        formEl.addEventListener('submit', e => {
+        this.orderPanel.addEventListener('submit', e => {
             e.preventDefault();
             this.infoHandler.removeErrorMsg(e.target);
             if (this._isBasketEmpty()) {
@@ -107,7 +110,7 @@ class Excursions {
                 this._validateOrderValue(errors, nameEl, 'name');
                 const emailEl = this._getOrderFormField(e.target, 'email');
                 this._validateOrderValue(errors, emailEl, 'email');
-                errors.length > 0 ? this.infoHandler.createOrderError(errors, e.target) : this._sendOrder(formEl, nameEl, emailEl);
+                errors.length > 0 ? this.infoHandler.createOrderError(errors, e.target) : this._sendOrder(this.orderPanel, nameEl, emailEl);
             };
         });
     }
@@ -118,9 +121,18 @@ class Excursions {
             const excursionItem = this.elCreator.createExcursionEl(itemData);
             this.excursionsPanel.appendChild(excursionItem);
         });
-        if (this._isElementClass(this.excursionsPanel.firstElementChild, 'excursions__item--prototype-client')) {
-            this._showFirstClientExcursion();
+        if (this._isClientSite()) {
+            this._isExcursionsListEmpty() ? this.infoHandler.createNoExcursionInfo(this.excursionsPanel)
+                : this._showFirstClientExcursion();
         };
+    }
+
+    _isClientSite() {
+        return this._isElementClass(this.excursionsPanel.firstElementChild, 'excursions__item--prototype-client');
+    }
+
+    _isExcursionsListEmpty() {
+        return this._findElementChildren(this.excursionsPanel).length === 1;
     }
 
     _showFirstClientExcursion() {
@@ -185,6 +197,9 @@ class Excursions {
 
     _insertBasketItem(data, basketItemNums) {
         const basketItem = this._setBasketItemData(data, basketItemNums);
+        if (this._isBasketEmpty()) {
+            this.infoHandler.removeErrorMsg(this.orderPanel);
+        }
         this._addItemToBasket(basketItem);
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
@@ -285,8 +300,7 @@ class Excursions {
 
     _clearOrderData(formEl, nameEl, emailEl) {
         formEl.reset();
-        nameEl.style.border = "";
-        emailEl.style.border = "";
+        this.infoHandler.setInitialBorderColor(nameEl, emailEl);
         this.basket = [];
     }
 
