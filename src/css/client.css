@@ -1,11 +1,44 @@
+:root {
+    --tran-info: 0.25s linear;
+    --light-white-bg: rgba(255, 255, 255, 0.7);
+    --black-col: #000000;
+    --black-btn: rgba(0, 0, 0, 0.7);
+    --white-col: #ffffff;
+    --white-hover: rgba(255, 255, 255, 0.9);
+    --body-bg-layer: rgba(0, 0, 0, 0.2);
+    --red-col: red;
+}
+
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 ul {
     list-style: none;
+}
+
+body {
+    align-items: center;
+    background-image: url(../imgs/background-img-client.jpg);
+    background-size: cover;
+    display: flex;
+    font-family: "Montserrat", sans-serif;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    width: 100%;
+}
+
+body::before {
+    background-color: var(--body-bg-layer);
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .panel {
@@ -42,4 +75,9 @@ ul {
     border-bottom: 1px solid #bbb;
     margin-bottom: 20px;
     padding-bottom: 20px;
+}
+
+.summary__item--prototype,
+.excursions__item--prototype {
+    display: none;
 }
