@@ -19,7 +19,7 @@ class InfoHandler {
 
     createOrderError(errors, targetEl) {
         errors.forEach(err => {
-            err.style.borderBottom = "2px solid red";
+            err.style.borderBottom = '2px solid rgba(255, 0, 0, 1)';
             this._setRedInputBorder(err.nextElementSibling);
         });
         this.showErrorMsg(targetEl, 'Aby kontynuować oba powyższe pola muszą zostać poprawnie uzupełnione.');
@@ -28,7 +28,7 @@ class InfoHandler {
     hideOrderErrors(formEl, nameEl, emailEl) {
         this.removeErrorMsg(formEl);
         this.setInitialBorderColor(nameEl, emailEl);
-        this.setEachInputBorderColor('black');
+        this.setEachInputBorderColor('rgba(0, 0, 0, 1)');
     }
 
     setInitialBorderColor(nameEl, emailEl) {
@@ -37,8 +37,8 @@ class InfoHandler {
     }
 
     createOrderSuccess(inputEl) {
-        inputEl.style.borderBottom = "2px solid green";
-        this.setEachInputBorderColor("green");
+        inputEl.style.borderBottom = '2px solid rgba(0, 128, 0, 1)';
+        this.setEachInputBorderColor('rgba(0, 128, 0, 1)');
     }
 
     setEachInputBorderColor(color) {
@@ -62,7 +62,7 @@ class InfoHandler {
     }
 
     _setRedInputBorder(border) {
-        border.style.background = "red";
+        border.style.background = 'rgba(255, 0, 0, 1)';
     }
 }
 

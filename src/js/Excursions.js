@@ -283,7 +283,7 @@ class Excursions {
         this._clearOrderData(formEl, nameEl, emailEl);
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
-        this.infoHandler.setEachInputBorderColor('black');
+        this.infoHandler.setEachInputBorderColor('rgba(0, 0, 0, 1)');
         this.infoHandler.showSuccessMsg(clientEmail, totalPrice);
     }
 

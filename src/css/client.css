@@ -1,12 +1,12 @@
 :root {
     --tran-info: 0.25s linear;
     --light-white-bg: rgba(255, 255, 255, 0.7);
-    --black-col: #000000;
+    --black-col: rgba(0, 0, 0, 1);
     --black-btn: rgba(0, 0, 0, 0.7);
-    --white-col: #ffffff;
+    --white-col: rgba(255, 255, 255, 1);
     --white-hover: rgba(255, 255, 255, 0.9);
     --body-bg-layer: rgba(0, 0, 0, 0.2);
-    --red-col: red;
+    --red-col: rgba(255, 0, 0, 1);
 }
 
 * {
