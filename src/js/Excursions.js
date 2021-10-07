@@ -249,7 +249,10 @@ class Excursions {
 
     _updateOrderTotalPrice() {
         const totalPriceEl = document.querySelector('.order__total-price-value');
-        const orderTotalPrice = this._countTotalPrice();
+        let orderTotalPrice = this._countTotalPrice();
+        if (this._isNumWithDot(orderTotalPrice)) {
+            orderTotalPrice = orderTotalPrice.toFixed(2);
+        }
         totalPriceEl.innerText = `${orderTotalPrice}PLN`;
     }
 
@@ -319,6 +322,10 @@ class Excursions {
 
     _findElementChildren(element) {
         return element.children;
+    }
+
+    _isNumWithDot(num) {
+        return num.toString().includes('.');
     }
 
     _countTotalPrice() {

@@ -44,6 +44,9 @@ class ElementCreator {
     }
 
     _setSummaryPrice(element, price) {
+        if (this._isNumWithDot(price)) {
+            price = price.toFixed(2);
+        }
         element.querySelector('.summary__total-price').innerText = `${price}PLN`;
     }
 
@@ -52,6 +55,10 @@ class ElementCreator {
         dzieci: ${itemData.numChild} x ${itemData.priceChild}PLN`;
         const descriptionEl = element.querySelector('.summary__prices');
         descriptionEl.innerText = textContent;
+    }
+
+    _isNumWithDot(num) {
+        return num.toString().includes('.');
     }
 
     _isElementClass(element, className) {

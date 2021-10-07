@@ -25,7 +25,7 @@ class DataValidator {
     }
 
     _isPriceValid(price1, price2) {
-        const priceRegex = /^\d{1,}(\.\d{1,2})?$/;
+        const priceRegex = /^\d+(\.\d{1,2})?$/;
         return (priceRegex.test(price1) && priceRegex.test(price2) && (price1 > 0 || price2 > 0));
     }
 
