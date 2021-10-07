@@ -320,3 +320,55 @@ body::before {
 .excursions__item--prototype {
     display: none;
 }
+
+.modal {
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    transition: opacity var(--tran-info), backdrop-blur var(--tran-info);
+    backdrop-filter: blur(0);
+}
+
+.modal--active {
+    backdrop-filter: blur(5px);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal__content {
+    background-color: var(--white-hover);
+    padding: 40px;
+    width: 70%;
+    border-radius: 10px;
+    position: relative;
+    transform: scale(0);
+    transition: transform var(--tran-info);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.modal__content--active {
+    transform: scale(1);
+}
+
+.modal__btn {
+    text-decoration: none;
+    font-size: 24px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}

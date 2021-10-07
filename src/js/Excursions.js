@@ -1,9 +1,12 @@
 class Excursions {
-    constructor(api, dataValidator, elCreator, infoHandler) {
+    constructor(api, dataValidator, elCreator, infoHandler, modal) {
         this.apiService = api;
         this.validator = dataValidator;
         this.elCreator = elCreator;
         this.infoHandler = infoHandler;
+
+        this.modal = modal;
+
         this.basket = [];
         this.excursionsPanel = document.querySelector('.excursions');
         this.summaryPanel = document.querySelector('.summary');
@@ -22,7 +25,7 @@ class Excursions {
                     .catch(err => console.error(err))
                     .finally(() => this.load())
             } else {
-                this.infoHandler.showErrorMsg(e.target, 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powższe pola.');
+                this.infoHandler.showErrorMsg(e.target, 'Aby dodać wycieczkę wypełnij poprawnie wszystkie powyższe pola.');
             };
         });
     }
@@ -284,7 +287,8 @@ class Excursions {
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
         this.infoHandler.setEachInputBorderColor('rgba(0, 0, 0, 1)');
-        this.infoHandler.showSuccessMsg(clientEmail, totalPrice);
+        this.modal.open(clientEmail, totalPrice);
+        //this.infoHandler.showSuccessMsg(clientEmail, totalPrice);
     }
 
     _addOrder(nameEl, emailEl) {

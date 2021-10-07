@@ -14,7 +14,7 @@ class InfoHandler {
 
     createNoExcursionInfo(parentEl) {
         this.showErrorMsg(parentEl, 'Przepraszamy, niestety baza wycieczek jest pusta. Odśwież stronę, a jeżeli nadal brak dostępnych wycieczek, to zajrzyj do nas w późniejszym terminie - cały czas aktualizujemy ofertę.', 'excursions__error');
-        this._changeLayout(parentEl);
+        this._changeLayout1Col(parentEl);
     }
 
     createOrderError(errors, targetEl) {
@@ -52,7 +52,7 @@ class InfoHandler {
         alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
     }
 
-    _changeLayout(parentEl) {
+    _changeLayout1Col(parentEl) {
         parentEl.classList.add('panel__excursions--1col');
         parentEl.nextElementSibling.classList.add('panel__form--invisible');
     }
