@@ -13,6 +13,45 @@ class ElementCreator {
         return newEl;
     }
 
+    createExcursionEditorEl([title, desc, priceAdult, priceChild]) {
+        const excursionEditorEl = document.querySelector('.form').cloneNode(true);
+        const saveBtn = excursionEditorEl.querySelector('.order__field-submit');
+        saveBtn.classList.remove('order__field-submit');
+        saveBtn.value = 'zapisz';
+        const cancelBtn = saveBtn.cloneNode(true);
+        cancelBtn.value = 'anuluj';
+        saveBtn.classList.add('order__field-save');
+        cancelBtn.classList.add('order__field-cancel');
+        excursionEditorEl.lastElementChild.appendChild(cancelBtn);
+        excursionEditorEl.elements.name.value = title;
+        excursionEditorEl.elements.description.value = desc;
+        excursionEditorEl.elements.adult.value = priceAdult;
+        excursionEditorEl.elements.child.value = priceChild;
+        return excursionEditorEl;
+    }
+
+    createOrderSuccessEl(email, price) {
+        const formattedPrice = this._setPriceFormat(price);
+        const modalDescriptionEl = this._createElWithClass('section', ['modal__description']);
+        const modalFirstPara = this._createElWithClass('p', ['modal__paragraph', 'modal__paragraph--first']);
+        const modalSecondPara = this._createElWithClass('p', ['modal__paragraph', 'modal__paragraph--second']);
+        modalFirstPara.innerText = 'Dziękujemy za złożenie zamówienia!';
+        modalSecondPara.innerText = `Wszelkie szczegóły Twojego zamówienia o wartości ${formattedPrice}PLN zostały przesłane na adres e-mail: ${email}.`;
+        modalDescriptionEl.appendChild(modalFirstPara);
+        modalDescriptionEl.appendChild(modalSecondPara);
+        return modalDescriptionEl;
+    }
+
+    _setPriceFormat(price) {
+        return this._isNumWithDot(price) ? price.toFixed(2) : price;
+    }
+
+    _createElWithClass(element, className) {
+        const newEl = document.createElement(element);
+        newEl.classList.add(...className);
+        return newEl;
+    }
+
     _getElProto(className) {
         const itemProto = document.querySelector(`.${className}`).cloneNode(true);
         itemProto.classList.remove(className);

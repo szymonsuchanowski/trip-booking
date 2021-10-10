@@ -4,13 +4,12 @@ class Excursions {
         this.validator = dataValidator;
         this.elCreator = elCreator;
         this.infoHandler = infoHandler;
-
         this.modal = modal;
-
         this.basket = [];
         this.excursionsPanel = document.querySelector('.excursions');
         this.summaryPanel = document.querySelector('.summary');
         this.orderPanel = document.querySelector('.order');
+        this.modalContent = document.querySelector('.modal__content');
     }
 
     add() {
@@ -48,27 +47,52 @@ class Excursions {
         });
     }
 
-    update() {
+    //--------------------------------------
+
+    handleUpdate() {
         this.excursionsPanel.addEventListener('click', e => {
             e.preventDefault();
             if (this._isElementClass(e.target, 'excursions__field-input--update')) {
-                if (this._isItemEditable(e.target)) {
-                    const id = this._getIdFromLi(e.target);
-                    const data = this._createDataToUpdate(e.target);
-                    //walidacja!!
-                    this.apiService.updateData(id, data)
-                        .catch(err => console.error(err))
-                        .finally(() => {
-                            e.target.value = 'edytuj';
-                            this._setItemEditable(e.target, false);
-                        });
-                } else {
-                    e.target.value = 'zapisz';
-                    this._setItemEditable(e.target, true);
-                };
-            };
-        });
+                const excursionId = this._getIdFromLi(e.target);
+                const liItemRoot = this._findLiItemRoot(e.target);
+                const [title, desc, priceAdult, priceChild] = [...this._findExcursionInfo(liItemRoot)].map(el => el.innerText);
+                const excursionData = [title, desc, priceAdult, priceChild];
+                const excursionEditor = this.elCreator.createExcursionEditorEl(excursionData);
+                this.modalContent.appendChild(excursionEditor);
+                this.modal.open();
+                this._handleExcursionEditorAction(excursionId);
+            }
+        })
     }
+
+    _handleExcursionEditorAction(excursionId) {
+        const editForm = this.modalContent.querySelector('.form');
+        editForm.addEventListener('click', e => {
+            e.preventDefault();
+            if (e.target.classList.contains('order__field-save')) {
+                this._handleExcursionEditorSaveAction(editForm, e.currentTarget.elements, excursionId);
+            } else if (e.target.classList.contains('order__field-cancel')) {
+                this.modal.closeModal();
+            }
+        })
+    }
+
+    _handleExcursionEditorSaveAction(editForm, formElements, id) {
+        this.infoHandler.removeErrorMsg(editForm);
+        const updatedData = this._getNewItemData(formElements);
+        this.validator.isExcursionDataValid(updatedData) ?
+            this._updateExcursionData(id, updatedData) :
+            this.infoHandler.showErrorMsg(editForm, 'Aby zapisać wycieczkę wszystkie powyższe pola muszą zostać poprawnie uzupełnione');
+    }
+
+    _updateExcursionData(id, data) {
+        this.apiService.updateData(id, data)
+            .then(() => this.modal.closeModal())
+            .catch(err => console.error(err))
+            .finally(() => this.load())
+    }
+
+    //--------------------------------------
 
     addToBasket() {
         this.excursionsPanel.addEventListener('submit', e => {
@@ -161,35 +185,12 @@ class Excursions {
         return this._findLiItemRoot(targetEl).dataset.id;
     }
 
-    _isItemEditable(targetEl) {
-        const liItemRoot = this._findLiItemRoot(targetEl);
-        const excursionInfoList = this._findExcursionInfo(liItemRoot);
-        return [...excursionInfoList].every(infoEl => infoEl.isContentEditable);
-    }
-
     _findLiItemRoot(targetEl) {
         return targetEl.parentElement.parentElement.parentElement;
     }
 
     _findExcursionInfo(itemRoot) {
         return itemRoot.querySelectorAll('.excursions__title, .excursions__description, .excursions__price');
-    }
-
-    _createDataToUpdate(targetEl) {
-        const liItemRoot = this._findLiItemRoot(targetEl);
-        const [titleEl, descEl, priceAdultEl, priceChildEl] = [...this._findExcursionInfo(liItemRoot)];
-        return {
-            title: titleEl.innerText.trim(),
-            description: descEl.innerText.trim(),
-            priceAdult: +priceAdultEl.innerText,
-            priceChild: +priceChildEl.innerText
-        };
-    }
-
-    _setItemEditable(targetEl, value) {
-        const liItemRoot = this._findLiItemRoot(targetEl);
-        const excursionInfoList = this._findExcursionInfo(liItemRoot);
-        excursionInfoList.forEach(infoEl => infoEl.contentEditable = value);
     }
 
     _getBasketItemNums(targetEl) {
@@ -290,8 +291,9 @@ class Excursions {
         this._updateOrderSummary();
         this._updateOrderTotalPrice();
         this.infoHandler.setEachInputBorderColor('rgba(0, 0, 0, 1)');
-        this.modal.open(clientEmail, totalPrice);
-        //this.infoHandler.showSuccessMsg(clientEmail, totalPrice);
+        const orderSuccessEl = this.elCreator.createOrderSuccessEl(clientEmail, totalPrice);
+        this.modalContent.appendChild(orderSuccessEl);
+        this.modal.open();
     }
 
     _addOrder(nameEl, emailEl) {

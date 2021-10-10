@@ -4,20 +4,33 @@ class Modal {
         this.modalContent = document.querySelector('.modal__content');
     }
 
-    open(clientEmail, totalPrice) {
+    open() {
         this.modal.classList.add('modal--active');
         this.modalContent.classList.add('modal__content--active');
-        this._addModalContent(clientEmail, totalPrice);
+        //this._addModalContent(clientEmail, totalPrice);
+    }
+
+    openEditModal() {
+        this.modal.classList.add('modal--active');
+        this.modalContent.classList.add('modal__content--active');
+        //this._addModalContent(clientEmail, totalPrice);
     }
 
     close() {
         this.modal.addEventListener('click', e => {
             if (e.target.classList.contains('modal--active') || e.target.classList.contains('modal__btn')) {
-                this.modal.classList.remove('modal--active');
-                this.modalContent.classList.remove('modal__content--active');
-                this._removeModalContent();
+                this.closeModal();
+                //this.modal.classList.remove('modal--active');
+                //this.modalContent.classList.remove('modal__content--active');
+                //this._removeModalContent();
             };
         });
+    }
+
+    closeModal() {
+        this.modal.classList.remove('modal--active');
+        this.modalContent.classList.remove('modal__content--active');
+        this._removeModalContent();
     }
 
     _addModalContent(clientEmail, totalPrice) {
@@ -31,9 +44,10 @@ class Modal {
     }
 
     _removeModalContent() {
-        if (this.modalContent.lastElementChild.tagName === 'P') {
+        this.modalContent.removeChild(this.modalContent.lastElementChild);
+        /*if (this.modalContent.lastElementChild.tagName === 'P') {
             this.modalContent.removeChild(this.modalContent.lastElementChild);
-        }
+        }*/
     }
 
     _isNumWithDot(num) {
