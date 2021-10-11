@@ -365,7 +365,7 @@ body::before {
     transform: scale(1);
 }
 
-.modal__btn {
+.modal__btn--close {
     text-decoration: none;
     font-size: 24px;
     position: absolute;

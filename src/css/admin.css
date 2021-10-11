@@ -38,7 +38,8 @@ ul {
     width: 30%;
 }
 
-.uploader, .order {
+.uploader,
+.order {
     border-bottom: 1px solid #bbb;
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -89,21 +90,17 @@ ul {
     align-items: center;
     text-align: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .modal__content--active {
     transform: scale(1);
 }
 
-.modal__btn {
+.modal__btn--close {
     text-decoration: none;
     font-size: 24px;
     position: absolute;
     top: 5px;
     right: 10px;
-}
-
-.form__field {
-    border: 2px solid red;
 }

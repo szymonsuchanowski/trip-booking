@@ -35,16 +35,41 @@ class Excursions {
             .catch(err => console.error(err))
     }
 
-    remove() {
+    handleRemove() {
         this.excursionsPanel.addEventListener('click', e => {
             e.preventDefault();
             if (this._isElementClass(e.target, 'excursions__field-input--remove')) {
-                const id = this._getIdFromLi(e.target);
-                this.apiService.removeData(id)
-                    .catch(err => console.error(err))
-                    .finally(() => this.load())
+                const excursionId = this._getIdFromLi(e.target);
+                const excursionTitle = this._getExcursionTitle(this._findLiItemRoot(e.target));
+                const confirmationEl = this.elCreator.createConfirmationEl(excursionTitle);
+                this.modalContent.appendChild(confirmationEl);
+                this.modal.open();
+                this._handleConfirmationAction(excursionId);
             };
         });
+    }
+
+    _getExcursionTitle(parentEl) {
+        return parentEl.firstElementChild.firstElementChild.innerText;
+    }
+
+    _handleConfirmationAction(excursionId) {
+        const confirmationEl = this.modalContent.querySelector('.modal__description');
+        confirmationEl.addEventListener('click', e => {
+            e.preventDefault();
+            if (this._isElementClass(e.target, 'modal__btn--confirm')) {
+                this._remove(excursionId);
+            } else if (this._isElementClass(e.target, 'modal__btn--reject')) {
+                this.modal.closeModal();
+            };
+        });
+    }
+
+    _remove(excursionId) {
+        this.apiService.removeData(excursionId)
+            .then(() => this.modal.closeModal())
+            .catch(err => console.error(err))
+            .finally(() => this.load())
     }
 
     //--------------------------------------
@@ -66,11 +91,11 @@ class Excursions {
     }
 
     _handleExcursionEditorAction(excursionId) {
-        const editForm = this.modalContent.querySelector('.form');
-        editForm.addEventListener('click', e => {
+        const editorForm = this.modalContent.querySelector('.form');
+        editorForm.addEventListener('click', e => {
             e.preventDefault();
             if (e.target.classList.contains('order__field-save')) {
-                this._handleExcursionEditorSaveAction(editForm, e.currentTarget.elements, excursionId);
+                this._handleExcursionEditorSaveAction(editorForm, e.currentTarget.elements, excursionId);
             } else if (e.target.classList.contains('order__field-cancel')) {
                 this.modal.closeModal();
             }
@@ -110,20 +135,49 @@ class Excursions {
         });
     }
 
-    removeFromBasket() {
+    //-----------------
+
+    handleRemoveFromBasket() {
         this.summaryPanel.addEventListener('click', e => {
             if (this._isElementClass(e.target, 'summary__btn-remove')) {
                 e.preventDefault();
-                const clickedItemId = this._getItemId(e.target);
-                this._removeItem(clickedItemId);
+                const excursionId = this._getItemId(e.target);
+                const excursionTitle = e.target.parentElement.firstElementChild.innerText;
+                const confirmationEl = this.elCreator.createConfirmationEl(excursionTitle);
+                this.modalContent.appendChild(confirmationEl);
+                this.modal.open();
+                this._handleBasketConfirmationAction(excursionId);
+                /*this._removeItem(clickedItemId);
                 this._updateOrderSummary();
-                this._updateOrderTotalPrice();
-                if (this._isBasketEmpty()) {
+                this._updateOrderTotalPrice();*/
+                /*if (this._isBasketEmpty()) {
                     this.infoHandler.hideOrderErrors(this.orderPanel, this._getOrderFormField(this.orderPanel, 'name'), this._getOrderFormField(this.orderPanel, 'email'));
-                }
+                }*/
             };
         });
     }
+
+    _handleBasketConfirmationAction(excursionId) {
+        const confirmationEl = this.modalContent.querySelector('.modal__description');
+        confirmationEl.addEventListener('click', e => {
+            e.preventDefault();
+            if (this._isElementClass(e.target, 'modal__btn--confirm')) {
+                this._removeExcursionFromBasket(excursionId);
+            } else if (this._isElementClass(e.target, 'modal__btn--reject')) {
+                this.modal.closeModal();
+            };
+        });
+    }
+
+    _removeExcursionFromBasket(excursionId) {
+        this._removeItem(excursionId);
+        this._updateOrderSummary();
+        this._updateOrderTotalPrice();
+        this.modal.closeModal();
+        this._isBasketEmpty() ? this.infoHandler.hideOrderErrors(this.orderPanel, this._getOrderFormField(this.orderPanel, 'name'), this._getOrderFormField(this.orderPanel, 'email')) : null;
+    }
+
+    //-------------------
 
     handleOrderSubmit() {
         this.orderPanel.addEventListener('submit', e => {

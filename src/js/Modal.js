@@ -7,22 +7,12 @@ class Modal {
     open() {
         this.modal.classList.add('modal--active');
         this.modalContent.classList.add('modal__content--active');
-        //this._addModalContent(clientEmail, totalPrice);
     }
 
-    openEditModal() {
-        this.modal.classList.add('modal--active');
-        this.modalContent.classList.add('modal__content--active');
-        //this._addModalContent(clientEmail, totalPrice);
-    }
-
-    close() {
+    handleClose() {
         this.modal.addEventListener('click', e => {
-            if (e.target.classList.contains('modal--active') || e.target.classList.contains('modal__btn')) {
+            if (e.target.classList.contains('modal--active') || e.target.classList.contains('modal__btn--close')) {
                 this.closeModal();
-                //this.modal.classList.remove('modal--active');
-                //this.modalContent.classList.remove('modal__content--active');
-                //this._removeModalContent();
             };
         });
     }
@@ -33,21 +23,8 @@ class Modal {
         this._removeModalContent();
     }
 
-    _addModalContent(clientEmail, totalPrice) {
-        if (this._isNumWithDot(totalPrice)) {
-            totalPrice = totalPrice.toFixed(2);
-        }
-        const textContent = `Dziękujęmy za złożenie zamówienia o wartości ${totalPrice}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${clientEmail}`;
-        const newP = document.createElement('p');
-        newP.innerText = textContent;
-        this.modalContent.appendChild(newP);
-    }
-
     _removeModalContent() {
         this.modalContent.removeChild(this.modalContent.lastElementChild);
-        /*if (this.modalContent.lastElementChild.tagName === 'P') {
-            this.modalContent.removeChild(this.modalContent.lastElementChild);
-        }*/
     }
 
     _isNumWithDot(num) {
