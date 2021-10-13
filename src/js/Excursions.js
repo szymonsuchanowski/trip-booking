@@ -107,7 +107,7 @@ class Excursions {
         const updatedData = this._getNewItemData(formElements);
         this.validator.isExcursionDataValid(updatedData) ?
             this._updateExcursionData(id, updatedData) :
-            this.infoHandler.showErrorMsg(editForm, 'Aby zapisać wycieczkę wszystkie powyższe pola muszą zostać poprawnie uzupełnione');
+            this.infoHandler.showErrorMsg(editForm, 'Aby zapisać wycieczkę wypełnij poprawnie wszystkie powyższe pola.');
     }
 
     _updateExcursionData(id, data) {

@@ -9,6 +9,10 @@
     --red-col: rgba(255, 0, 0, 1);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

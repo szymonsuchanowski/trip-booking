@@ -1,56 +1,205 @@
+:root {
+    --tran-info: 0.25s linear;
+    --light-white-bg: rgba(255, 255, 255, 0.7);
+    --black-col: rgba(0, 0, 0, 1);
+    --black-btn: rgba(0, 0, 0, 0.7);
+    --white-col: rgba(255, 255, 255, 1);
+    --white-hover: rgba(255, 255, 255, 0.9);
+    --body-bg-layer: rgba(0, 0, 0, 0.2);
+    --red-col: rgba(255, 0, 0, 1);
+
+    --grey-col: #eceff1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 ul {
     list-style: none;
 }
 
+body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    min-height: 100vh;
+    width: 100%;
+    background: #EFEFF6;
+}
+
+.header {
+    font-weight: 400;
+    font-size: 2.2rem;
+    width: 100%;
+    padding: 1rem;
+    text-transform: uppercase;
+    color: #007bff;
+    position: sticky;
+    top: 0;
+    background: var(--white-col);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
 .panel {
     display: flex;
-    margin: 0 auto;
-    max-width: 1200px;
-    padding: 30px 0;
+    flex-direction: row-reverse;
+    width: 100%;
 }
 
-.panel__excursins {
-    width: 70%;
-}
-
-.excursions {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.excurions__item {
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 20px;
-    width: calc(50% - 20px);
+.panel__header {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 1.4rem;
+    border-bottom: 1px solid;
+    padding-bottom: 0.5rem;
 }
 
 .panel__form {
-    background-color: #f4f4f4;
-    padding: 20px;
-    width: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: #0e0c28;
+    width: 25%;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    color: var(--white-col);
 }
 
-.uploader,
-.order {
-    border-bottom: 1px solid #bbb;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+.panel__wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 75%;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form__label {
+    color: #a4aadb;
+}
+
+.form__row {
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1rem;
 }
 
 .form__field {
+    background-color: inherit;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-family: "Montserrat", sans-serif;
+    padding: 5px;
+    border-bottom: 1px solid #a4aadb;
+    color: #a4aadb;
+    -webkit-appearance: none;
+}
+
+.order__field-border {
+    background: #a4aadb;
     display: block;
+    height: 2px;
+    transition: width var(--tran-info);
+    width: 0;
+}
+
+.form__field:focus + .order__field-border {
+    width: 100%;
+}
+
+.order__field-input {
+    color: #a4aadb;
+    font-family: "Montserrat", sans-serif;
+    padding: 0.5rem 0;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #a4aadb;
+    background: transparent;
+    transition: box-shadow var(--tran-info), color var(--tran-info);
+}
+
+.order__field-input:hover {
+    box-shadow: inset 0 -3.25em 0 0 #a4aadb;
+    color: #0e0c28;
+}
+
+.excursions__item {
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border-radius: 10px;
+    background-color: var(--white-col);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.excursions__title {
+    margin-bottom: 1rem;
+    font-family: 'Yeseva One', cursive;
+    font-size: 1.8rem;
+}
+
+.excursions__description {
+    margin-bottom: 0.5rem;
+}
+
+.excursions__field--submit {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.excursions__field-input {
+    padding: 0.5rem 0;
+    width: 25%;
+    cursor: pointer;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid var(--black-col);
+    background: transparent;
+    transition: box-shadow var(--tran-info), color var(--tran-info), border var(--tran-info);
+}
+
+.excursions__field-input--update:hover {
+    box-shadow: inset 0 -3.25em 0 0 rgb(3, 190, 3);
+    color: var(--white-col);
+    border: 1px solid rgb(3, 190, 3);
+}
+
+.excursions__field-input--remove:hover {
+    box-shadow: inset 0 -3.25em 0 0 rgb(255, 4, 4);
+    color: var(--white-col);
+    border: 1px solid rgb(255, 4, 4);
+}
+
+.excursions__field {
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .form__field--longtext {
+    display: block;
     height: 100px;
+    resize: none;
 }
 
 .modal {
@@ -67,7 +216,7 @@ ul {
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    transition: opacity 1s linear, backdrop-blur 1s linear;
+    transition: opacity var(--tran-info), backdrop-blur var(--tran-info);
     backdrop-filter: blur(0);
 }
 
@@ -84,11 +233,10 @@ ul {
     border-radius: 10px;
     position: relative;
     transform: scale(0);
-    transition: transform 1s linear;
+    transition: transform var(--tran-info);
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
         rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
@@ -97,10 +245,120 @@ ul {
     transform: scale(1);
 }
 
+.modal__content--active .form__label {
+    color: black;
+    font-weight: bold;
+}
+
+.modal__content--active .form__field {
+    background: inherit;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
+.modal__content--active .order__field-border {
+    background: black;
+}
+
+.modal__content--active .order__field {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal__content--active .order__field-input {
+    width: 25%;
+    border: 1px solid black;
+    color: black;
+}
+
+.modal__content--active .order__field-save:hover {
+    box-shadow: inset 0 -3.25em 0 0 rgb(3, 190, 3);
+    color: var(--white-col);
+    border: 1px solid rgb(3, 190, 3);
+}
+
+.modal__content--active .order__field-cancel:hover {
+    box-shadow: inset 0 -3.25em 0 0 rgb(255, 4, 4);
+    color: var(--white-col);
+    border: 1px solid rgb(255, 4, 4);
+}
+
+.model__content--active .error__msg {
+    color: rgb(255, 4, 4);
+}
+
 .modal__btn--close {
     text-decoration: none;
-    font-size: 24px;
+    font-size: 2.5rem;
     position: absolute;
-    top: 5px;
+    top: -5px;
     right: 10px;
+    color: black;
+    transition: color var(--tran-info);
+}
+
+.modal__btn--close:hover {
+    color: rgb(255, 4, 4);
+}
+
+.modal__paragraph {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.modal__wrapper {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.modal__btn--confirm {
+    margin-right: 1rem;
+}
+
+.modal__btn--reject {
+    margin-left: 1rem;
+}
+
+.modal__btn--confirm,
+.modal__btn--reject {
+    color: black;
+    font-family: "Montserrat", sans-serif;
+    padding: 0.5rem 0;
+    width: 25%;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid black;
+    background: transparent;
+    transition: box-shadow var(--tran-info), color var(--tran-info);
+}
+
+.modal__btn--confirm:hover {
+    box-shadow: inset 0 -3.25em 0 0 rgb(3, 190, 3);
+    color: var(--white-col);
+    border: 1px solid rgb(3, 190, 3);
+}
+
+.modal__btn--reject:hover {
+    box-shadow: inset 0 -3.25em 0 0 rgb(255, 4, 4);
+    color: var(--white-col);
+    border: 1px solid rgb(255, 4, 4);
+}
+
+.error__msg {
+    color: #a4aadb;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.modal__content--active .error__msg {
+    color: rgb(255, 4, 4);
+}
+
+.excursions__item--prototype {
+    display: none;
 }

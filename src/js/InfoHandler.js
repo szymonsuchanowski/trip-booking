@@ -48,10 +48,6 @@ class InfoHandler {
         })
     }
 
-    showSuccessMsg(email, price) {
-        alert(`Dziękujęmy za złożenie zamówienia o wartości ${price}PLN. Wszelkie szczegóły zamówienia zostały wysłane na adres e-mail: ${email}`);
-    }
-
     _changeLayout1Col(parentEl) {
         parentEl.classList.add('panel__excursions--1col');
         parentEl.nextElementSibling.classList.add('panel__form--invisible');

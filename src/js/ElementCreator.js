@@ -15,6 +15,9 @@ class ElementCreator {
 
     createExcursionEditorEl(excursionData) {
         const excursionEditorEl = document.querySelector('.form').cloneNode(true);
+        if (excursionEditorEl.lastElementChild.tagName === 'P') {
+            excursionEditorEl.removeChild(excursionEditorEl.lastElementChild);
+        }
         this._setExcursionEditorBtns(excursionEditorEl);
         this._setInputInitialValues(excursionEditorEl.elements, excursionData);
         return excursionEditorEl;

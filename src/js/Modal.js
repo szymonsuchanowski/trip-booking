@@ -12,6 +12,7 @@ class Modal {
     handleClose() {
         this.modal.addEventListener('click', e => {
             if (e.target.classList.contains('modal--active') || e.target.classList.contains('modal__btn--close')) {
+                e.preventDefault();
                 this.closeModal();
             };
         });
