@@ -102,7 +102,7 @@ body::before {
 
 .order__field-input {
     background-color: inherit;
-    border: 0;
+    border: none;
     border-bottom: 1px solid var(--black-col);
     font-family: "Montserrat", sans-serif;
     outline: none;
@@ -195,7 +195,7 @@ body::before {
 
 .excursions__field-input {
     background-color: transparent;
-    border: 0;
+    border: none;
     border-bottom: 1px solid var(--black-col);
     font-family: "Montserrat", sans-serif;
     font-size: 1.125rem;
