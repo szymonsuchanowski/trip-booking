@@ -7,6 +7,7 @@ class Modal {
     open() {
         this.modal.classList.add('modal--active');
         this.modalContent.classList.add('modal__content--active');
+        document.body.style.overflow = 'hidden';
     }
 
     handleClose() {
@@ -21,6 +22,7 @@ class Modal {
     closeModal() {
         this.modal.classList.remove('modal--active');
         this.modalContent.classList.remove('modal__content--active');
+        document.body.style.overflow = '';
         this._removeModalContent();
     }
 

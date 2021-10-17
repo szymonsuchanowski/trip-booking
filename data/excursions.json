@@ -1,41 +1,5 @@
 {
-  "excursions": [
-    {
-      "title": "test1",
-      "description": "test1",
-      "priceAdult": 80,
-      "priceChild": 60,
-      "id": 1
-    },
-    {
-      "title": "test2",
-      "description": "test2",
-      "priceAdult": 40,
-      "priceChild": 55,
-      "id": 2
-    },
-    {
-      "title": "test3",
-      "description": "test3",
-      "priceAdult": 70,
-      "priceChild": 50,
-      "id": 3
-    },
-    {
-      "title": "test4",
-      "description": "test4",
-      "priceAdult": 10,
-      "priceChild": 20,
-      "id": 4
-    },
-    {
-      "title": "aaa",
-      "description": "aaa",
-      "priceAdult": 12,
-      "priceChild": 12,
-      "id": 5
-    }
-  ],
+  "excursions": [],
   "orders": [
     {
       "clientName": "test",
@@ -131,6 +95,101 @@
         }
       ],
       "id": 4
+    },
+    {
+      "clientName": "Szymon",
+      "clientEmail": "aa@aaa.com",
+      "totalPrice": 132,
+      "clientOrder": [
+        {
+          "id": 5,
+          "title": "aaa",
+          "priceAdult": 12,
+          "priceChild": 12,
+          "numAdult": 0,
+          "numChild": 1,
+          "price": 12
+        },
+        {
+          "id": 1,
+          "title": "test1",
+          "priceAdult": 80,
+          "priceChild": 60,
+          "numAdult": 1,
+          "numChild": 0,
+          "price": 80
+        },
+        {
+          "id": 2,
+          "title": "test2",
+          "priceAdult": 40,
+          "priceChild": 55,
+          "numAdult": 1,
+          "numChild": 0,
+          "price": 40
+        }
+      ],
+      "id": 5
+    },
+    {
+      "clientName": "Szymon",
+      "clientEmail": "aa@aaa.com",
+      "totalPrice": 12,
+      "clientOrder": [
+        {
+          "id": 5,
+          "title": "aaa",
+          "priceAdult": 12,
+          "priceChild": 12,
+          "numAdult": 0,
+          "numChild": 1,
+          "price": 12
+        }
+      ],
+      "id": 6
+    },
+    {
+      "clientName": "test",
+      "clientEmail": "aa@aaa.com",
+      "totalPrice": 92,
+      "clientOrder": [
+        {
+          "id": 5,
+          "title": "aaa",
+          "priceAdult": 12,
+          "priceChild": 12,
+          "numAdult": 0,
+          "numChild": 1,
+          "price": 12
+        },
+        {
+          "id": 1,
+          "title": "test1",
+          "priceAdult": 80,
+          "priceChild": 60,
+          "numAdult": 1,
+          "numChild": 0,
+          "price": 80
+        }
+      ],
+      "id": 7
+    },
+    {
+      "clientName": "test",
+      "clientEmail": "aa@aaa.com",
+      "totalPrice": 80,
+      "clientOrder": [
+        {
+          "id": 1,
+          "title": "test1",
+          "priceAdult": 80,
+          "priceChild": 60,
+          "numAdult": 1,
+          "numChild": 0,
+          "price": 80
+        }
+      ],
+      "id": 8
     }
   ]
 }
