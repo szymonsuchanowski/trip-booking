@@ -99,11 +99,16 @@ class ElementCreator {
         const saveBtn = excursionEditorEl.querySelector('.order__field-submit');
         saveBtn.classList.remove('order__field-submit');
         saveBtn.value = 'zapisz';
-        const cancelBtn = saveBtn.cloneNode(true);
-        cancelBtn.value = 'anuluj';
+        const cancelBtn = this._createCancelBtn(saveBtn);
         saveBtn.classList.add('order__field-save');
-        cancelBtn.classList.add('order__field-cancel');
         excursionEditorEl.lastElementChild.appendChild(cancelBtn);
+    }
+
+    _createCancelBtn(btn) {
+        const cancelBtn = btn.cloneNode(true);
+        cancelBtn.value = 'anuluj';
+        cancelBtn.classList.add('order__field-cancel');
+        return cancelBtn;
     }
 
     _setInputInitialValues(formElements, [title, desc, priceAdult, priceChild]) {

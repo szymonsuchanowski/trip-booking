@@ -49,31 +49,6 @@ class Excursions {
         });
     }
 
-    _getExcursionTitle(parentEl) {
-        return parentEl.firstElementChild.firstElementChild.innerText;
-    }
-
-    _handleConfirmationAction(excursionId) {
-        const confirmationEl = this.modalContent.querySelector('.modal__description');
-        confirmationEl.addEventListener('click', e => {
-            e.preventDefault();
-            if (this._isElementClass(e.target, 'modal__btn--confirm')) {
-                this._remove(excursionId);
-            } else if (this._isElementClass(e.target, 'modal__btn--reject')) {
-                this.modal.closeModal();
-            };
-        });
-    }
-
-    _remove(excursionId) {
-        this.apiService.removeData(excursionId)
-            .then(() => this.modal.closeModal())
-            .catch(err => console.error(err))
-            .finally(() => this.load())
-    }
-
-    //--------------------------------------
-
     handleUpdate() {
         this.excursionsPanel.addEventListener('click', e => {
             e.preventDefault();
@@ -89,35 +64,6 @@ class Excursions {
             }
         })
     }
-
-    _handleExcursionEditorAction(excursionId) {
-        const editorForm = this.modalContent.querySelector('.form');
-        editorForm.addEventListener('click', e => {
-            e.preventDefault();
-            if (e.target.classList.contains('order__field-save')) {
-                this._handleExcursionEditorSaveAction(editorForm, e.currentTarget.elements, excursionId);
-            } else if (e.target.classList.contains('order__field-cancel')) {
-                this.modal.closeModal();
-            }
-        })
-    }
-
-    _handleExcursionEditorSaveAction(editForm, formElements, id) {
-        this.infoHandler.removeErrorMsg(editForm);
-        const updatedData = this._getNewItemData(formElements);
-        this.validator.isExcursionDataValid(updatedData) ?
-            this._updateExcursionData(id, updatedData) :
-            this.infoHandler.showErrorMsg(editForm, 'Aby zapisać wycieczkę wypełnij poprawnie wszystkie powyższe pola.');
-    }
-
-    _updateExcursionData(id, data) {
-        this.apiService.updateData(id, data)
-            .then(() => this.modal.closeModal())
-            .catch(err => console.error(err))
-            .finally(() => this.load())
-    }
-
-    //--------------------------------------
 
     addToBasket() {
         this.excursionsPanel.addEventListener('submit', e => {
@@ -135,8 +81,6 @@ class Excursions {
         });
     }
 
-    //-----------------
-
     handleRemoveFromBasket() {
         this.summaryPanel.addEventListener('click', e => {
             if (this._isElementClass(e.target, 'summary__btn-remove')) {
@@ -147,37 +91,9 @@ class Excursions {
                 this.modalContent.appendChild(confirmationEl);
                 this.modal.open();
                 this._handleBasketConfirmationAction(excursionId);
-                /*this._removeItem(clickedItemId);
-                this._updateOrderSummary();
-                this._updateOrderTotalPrice();*/
-                /*if (this._isBasketEmpty()) {
-                    this.infoHandler.hideOrderErrors(this.orderPanel, this._getOrderFormField(this.orderPanel, 'name'), this._getOrderFormField(this.orderPanel, 'email'));
-                }*/
             };
         });
     }
-
-    _handleBasketConfirmationAction(excursionId) {
-        const confirmationEl = this.modalContent.querySelector('.modal__description');
-        confirmationEl.addEventListener('click', e => {
-            e.preventDefault();
-            if (this._isElementClass(e.target, 'modal__btn--confirm')) {
-                this._removeExcursionFromBasket(excursionId);
-            } else if (this._isElementClass(e.target, 'modal__btn--reject')) {
-                this.modal.closeModal();
-            };
-        });
-    }
-
-    _removeExcursionFromBasket(excursionId) {
-        this._removeItem(excursionId);
-        this._updateOrderSummary();
-        this._updateOrderTotalPrice();
-        this.modal.closeModal();
-        this._isBasketEmpty() ? this.infoHandler.hideOrderErrors(this.orderPanel, this._getOrderFormField(this.orderPanel, 'name'), this._getOrderFormField(this.orderPanel, 'email')) : null;
-    }
-
-    //-------------------
 
     handleOrderSubmit() {
         this.orderPanel.addEventListener('submit', e => {
@@ -243,8 +159,58 @@ class Excursions {
         return targetEl.parentElement.parentElement.parentElement;
     }
 
+    _getExcursionTitle(parentEl) {
+        return parentEl.firstElementChild.firstElementChild.innerText;
+    }
+
+    _handleConfirmationAction(excursionId) {
+        const confirmationEl = this.modalContent.querySelector('.modal__description');
+        confirmationEl.addEventListener('click', e => {
+            e.preventDefault();
+            if (this._isElementClass(e.target, 'modal__btn--confirm')) {
+                this._remove(excursionId);
+            } else if (this._isElementClass(e.target, 'modal__btn--reject')) {
+                this.modal.closeModal();
+            };
+        });
+    }
+
+    _remove(excursionId) {
+        this.apiService.removeData(excursionId)
+            .then(() => this.modal.closeModal())
+            .catch(err => console.error(err))
+            .finally(() => this.load())
+    }
+
     _findExcursionInfo(itemRoot) {
         return itemRoot.querySelectorAll('.excursions__title, .excursions__description, .excursions__price');
+    }
+
+    _handleExcursionEditorAction(excursionId) {
+        const editorForm = this.modalContent.querySelector('.form');
+        editorForm.addEventListener('click', e => {
+            e.preventDefault();
+            if (e.target.classList.contains('order__field-save')) {
+                this._handleExcursionEditorSaveAction(editorForm, e.currentTarget.elements, excursionId);
+            } else if (e.target.classList.contains('order__field-cancel')) {
+                this.modal.closeModal();
+            }
+        })
+    }
+
+    _handleExcursionEditorSaveAction(editForm, formElements, id) {
+        this.infoHandler.removeErrorMsg(editForm);
+        const updatedData = this._getNewItemData(formElements);
+        this.validator.isExcursionDataValid(updatedData) ?
+            this._updateExcursionData(id, updatedData) :
+            this.infoHandler.showErrorMsg(editForm, 'Aby zapisać wycieczkę wypełnij poprawnie wszystkie powyższe pola.');
+    }
+
+    _updateExcursionData(id, data) {
+        this.apiService.updateData(id, data)
+            .then(() => this.modal.closeModal())
+            .catch(err => console.error(err))
+            .finally(() => this.load())
     }
 
     _getBasketItemNums(targetEl) {
@@ -313,6 +279,26 @@ class Excursions {
 
     _getItemId(targetEl) {
         return +targetEl.parentElement.parentElement.dataset.id;
+    }
+
+    _handleBasketConfirmationAction(excursionId) {
+        const confirmationEl = this.modalContent.querySelector('.modal__description');
+        confirmationEl.addEventListener('click', e => {
+            e.preventDefault();
+            if (this._isElementClass(e.target, 'modal__btn--confirm')) {
+                this._removeExcursionFromBasket(excursionId);
+            } else if (this._isElementClass(e.target, 'modal__btn--reject')) {
+                this.modal.closeModal();
+            };
+        });
+    }
+
+    _removeExcursionFromBasket(excursionId) {
+        this._removeItem(excursionId);
+        this._updateOrderSummary();
+        this._updateOrderTotalPrice();
+        this.modal.closeModal();
+        this._isBasketEmpty() ? this.infoHandler.hideOrderErrors(this.orderPanel, this._getOrderFormField(this.orderPanel, 'name'), this._getOrderFormField(this.orderPanel, 'email')) : null;
     }
 
     _removeItem(id) {

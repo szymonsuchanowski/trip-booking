@@ -25,8 +25,13 @@ class DataValidator {
     }
 
     _isPriceValid(price1, price2) {
-        const priceRegex = /^\d+(\.\d{1,2})?$/;
-        return (priceRegex.test(price1) && priceRegex.test(price2) && (price1 > 0 || price2 > 0));
+        const priceRegex = this._chooseRegex('price');
+        return (this._isMatchRegex(priceRegex, price1) && this._isMatchRegex(priceRegex, price2) && (price1 > 0 || price2 > 0));
+    }
+
+    _isNumValid(num) {
+        const numRegex = this._chooseRegex('num');
+        return this._isMatchRegex(numRegex, num);
     }
 
     _chooseRegex(inputName) {
@@ -34,12 +39,11 @@ class DataValidator {
             return /^[a-zA-Z]{3,}(?:(-| )[a-zA-Z]+){0,2}$/;
         } else if (inputName === 'email') {
             return /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        } else if (inputName === 'price') {
+            return /^\d+(\.\d{1,2})?$/;
+        } else if (inputName === 'num') {
+            return /^(0|([1-9]{0,1}[0-9]{0,1}))$/;
         }
-    }
-
-    _isNumValid(num) {
-        const numRegex = /^(0|([1-9]{0,1}[0-9]{0,1}))$/;
-        return numRegex.test(num);
     }
 
     _isMatchRegex(regex, testValue) {
