@@ -379,7 +379,7 @@ body::before {
 
 .modal__wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 2rem;
 }
 
