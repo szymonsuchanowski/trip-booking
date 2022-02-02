@@ -69,32 +69,34 @@ The project uses [node](https://nodejs.org/en/), [npm](https://www.npmjs.com/) a
   npm start
 ```
 
--   Trip Booking App is ready to go: - client site
+-   Trip Booking App is ready to go:
+
+    - client site
 
         ```bash
         http://localhost:8080/index.html
         ```
 
-        - admin site
+    - admin site
 
         ```bash
         http://localhost:8080/admin.html
         ```
 
-        - data (database)
-            - existing trips
+    - data (database)
+        - existing trips
 
             ```bash
             http://localhost:3000/excursions
             ```
 
-            - orders placed
+        - orders placed
 
             ```bash
             http://localhost:3000/orders
             ```
 
-    &nbsp;
+&nbsp;
 
 ## 🤔 Solutions provided in the project
 
