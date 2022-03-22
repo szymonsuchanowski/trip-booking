@@ -9,7 +9,7 @@
 
 ### What is Trip Booking App?
 
-In short, Trip Booking App is a tool that allows both **users to order trips** and **manage the offer of available trips by the administrator**.
+In short, Trip Booking App is a tool that allows both **users to order trips** and **manage the offer of available trips by the administrator** (using [fake-json-server](https://github.com/szymonsuchanowski/fake-json-server-heroku)).
 
 ### Trip Booking App features
 
@@ -57,12 +57,6 @@ The project uses [node](https://nodejs.org/en/), [npm](https://www.npmjs.com/) a
   npm i
 ```
 
--   Start the JSON server (if you don't have JSON server installed globally then you need to install it using `npm install -g JSON-server` and then run JSON Server)
-
-```bash
-  npm run api
-```
-
 -   Start developers mode
 
 ```bash
@@ -87,13 +81,13 @@ The project uses [node](https://nodejs.org/en/), [npm](https://www.npmjs.com/) a
         - existing trips
 
             ```bash
-            http://localhost:3000/excursions
+            https://fake-server-trip-booking.herokuapp.com/excursions
             ```
 
         - orders placed
 
             ```bash
-            http://localhost:3000/orders
+            https://fake-server-trip-booking.herokuapp.com/orders
             ```
 
 &nbsp;
@@ -129,6 +123,16 @@ The project uses [node](https://nodejs.org/en/), [npm](https://www.npmjs.com/) a
 
 -   [json-server](https://www.npmjs.com/package/json-server)
 -   [The Modern JavaScript Tutorial](https://javascript.info)
+-   [Deploying Fake Server & Datebase](https://dev.to/youssefzidan/deploying-fake-back-end-server-database-using-json-server-github-and-heroku-1lm4)
+
+&nbsp;
+## 🥷 Author
+
+Coded by **Szymon Suchanowski**.
+
+Feel free to contact me:
+- [LinkedIn](https://www.linkedin.com/in/suchanowski/)
+- [GitHub](https://github.com/szymonsuchanowski)
 
 &nbsp;
 
