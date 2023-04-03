@@ -1,6 +1,6 @@
 class ExcursionsAPI {
     constructor() {
-        this.url = "https://fake-server-trip-booking.herokuapp.com/";
+        this.url = "https://drab-gold-salmon-garb.cyclic.app/";
     }
 
     loadData(path) {
